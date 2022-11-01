@@ -1,0 +1,10 @@
+﻿@{
+     if ((string)Session["Department"] == "Super Admin")
+    {
+        Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}

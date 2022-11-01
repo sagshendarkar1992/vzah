@@ -1,0 +1,256 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.gridster/0.5.6/jquery.gridster.js"></script>*@
+<script src="~/Custom JS/jquery.gridster.js"></script>
+<style>
+    .page-heading {
+        padding: 0 0px 0px 0px !important;
+    }
+
+    h2 {
+        margin-top: 10px !important;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#filter").hide();
+        //bindGridUtilization(0, 0, 0, 0, 0, "","","");
+        btnFilterClick();
+
+    });
+
+    function btnFilterClick(deviceType) {
+        var siteID = $("#SITEID").val();
+        var classID = $("#CLASSID").val();
+        var machineID = $("#MACHINEID").val();
+        //var textSearch = $("#TEXTSEARCH").val().trim();
+        var BUID = $("#BUID").val();
+        var companyID = $("#COMPANYID").val();
+        var fromDate = $("#FROMDATE").val();
+        var toDate = $("#TODATE").val();
+
+        if (siteID == null) {
+            siteID = 0;
+        }
+        if (classID == null) {
+            classID = 0;
+        }
+        if (machineID == null) {
+            machineID = 0;
+        }
+        if (companyID == null) {
+            companyID = 0;
+        }
+        if (BUID == null) {
+            BUID = 0;
+        }
+        if (fromDate == undefined) {
+            fromDate = "";
+        }
+        if (toDate == undefined) {
+            toDate = "";
+        }
+        DashboardData(machineID, BUID, companyID, siteID, classID, deviceType);
+
+    }
+
+    function ViewRunningStatus(FLAG) {
+        var siteID = $("#SITEID").val();
+        var classID = $("#CLASSID").val();
+        var machineID = $("#MACHINEID").val();
+        var BUID = $("#BUID").val();
+        var companyID = $("#COMPANYID").val();
+        if (siteID == null) {
+            siteID = 0;
+        }
+        if (classID == null) {
+            classID = 0;
+        }
+        if (machineID == null) {
+            machineID = 0;
+        }
+        if (companyID == null) {
+            companyID = 0;
+        }
+        if (BUID == null) {
+            BUID = 0;
+        }
+        window.location.href = "/RunningStatus/GetRunningStatus?FLAG=" + FLAG + "&MACHINEID=" + machineID + "&BUID=" + BUID + "&COMPANYID=" + companyID + "&SITEID=" + siteID + "&CLASSID=" + classID + "&DESC=&PAGENO=1";
+    }
+
+    function ViewAlertDetails(FLAG, label) {
+        var siteID = $("#SITEID").val();
+        var classID = $("#CLASSID").val();
+        var machineID = $("#MACHINEID").val();
+        var BUID = $("#BUID").val();
+        var companyID = $("#COMPANYID").val();
+        if (siteID == null) {
+            siteID = 0;
+        }
+        if (classID == null) {
+            classID = 0;
+        }
+        if (machineID == null) {
+            machineID = 0;
+        }
+        if (companyID == null) {
+            companyID = 0;
+        }
+        if (BUID == null) {
+            BUID = 0;
+        }
+        window.location.href = "/AlertDetails/GetAlertDetails?FLAG=" + FLAG + "&MACHINEID=" + machineID + "&BUID=" + BUID + "&COMPANYID=" + companyID + "&SITEID=" + siteID + "&CLASSID=" + classID + "&DESC=&PAGENO=1&AlertType=" + encodeURIComponent(label);
+    }
+
+    function ViewWarningDetails(label) {
+        //var siteID = $("#SITEID").val();
+        //var classID = $("#CLASSID").val();
+        //var machineID = $("#MACHINEID").val();
+        //var BUID = $("#BUID").val();
+        //var companyID = $("#COMPANYID").val();
+        //if (siteID == null) {
+        //    siteID = 0;
+        //}
+        //if (classID == null) {
+        //    classID = 0;
+        //}
+        //if (machineID == null) {
+        //    machineID = 0;
+        //}
+        //if (companyID == null) {
+        //    companyID = 0;
+        //}
+        //if (BUID == null) {
+        //    BUID = 0;
+        //}
+        //alert(Count);
+        //window.location.href = "/Notifications/GetNotificationsDetails/" + Count;
+        window.location.href = "/Notifications/GetNotificationsDetails?WarningType=" + encodeURIComponent(label);
+    }
+
+    function ViewMaintenance(FLAG) {
+        var siteID = $("#SITEID").val();
+        var classID = $("#CLASSID").val();
+        var machineID = $("#MACHINEID").val();
+        var BUID = $("#BUID").val();
+        var companyID = $("#COMPANYID").val();
+        if (siteID == null) {
+            siteID = 0;
+        }
+        if (classID == null) {
+            classID = 0;
+        }
+        if (machineID == null) {
+            machineID = 0;
+        }
+        if (companyID == null) {
+            companyID = 0;
+        }
+        if (BUID == null) {
+            BUID = 0;
+        }
+        window.location.href = "/MaintananceMast/GetMaintananceMast?FLAG=" + FLAG + "&MACHINEID=" + machineID + "&BUID=" + BUID + "&COMPANYID=" + companyID + "&SITEID=" + siteID + "&CLASSID=" + classID + "&DESC=&PAGENO=1";
+    }
+
+    function ViewFleet(siteCode, Status) {
+        var siteID = $("#SITEID").val();
+        var classID = $("#CLASSID").val();
+        var machineID = $("#MACHINEID").val();
+        var BUID = $("#BUID").val();
+        var companyID = $("#COMPANYID").val();
+        if (siteID == null) {
+            siteID = 0;
+        }
+        if (classID == null) {
+            classID = 0;
+        }
+        if (machineID == null) {
+            machineID = 0;
+        }
+        if (companyID == null) {
+            companyID = 0;
+        }
+        if (BUID == null) {
+            BUID = 0;
+        }
+        window.location.href = "/Fleet/GetFleet?FLAG=" + 0 + "&MACHINEID=" + machineID + "&BUID=" + BUID + "&COMPANYID=" + companyID + "&SITEID=" + siteID + "&CLASSID=" + classID + "&DESC=&PAGENO=1" + "&SITECODE=" + siteCode + "&STATUS=" + Status;
+    }
+
+    function DashboardData(machineID, BUID, companyID, siteID, classID, deviceType) {
+        $.ajax({
+            url: "/Dashboard/ConfiguredDashboardData",
+            type: "GET",
+            data: { FLAG: 0, MACHINEID: machineID, DESC: "", CLASSID: classID, BUID: BUID, COMPANYID: companyID, SITEID: siteID, deviceType: "ConfiguredDashboardData" },
+            success: function (data) {
+
+                $("#DashboardDataDiv").empty('');
+                $("#DashboardDataDiv").html(data);
+                BirdEye(machineID, BUID, companyID, siteID, classID, deviceType);
+            },
+            error: function () {
+                alert("error");
+            }
+
+        })
+    }
+
+    function BirdEye(machineID, BUID, companyID, siteID, classID, deviceType) {
+        $.ajax({
+            url: "/BirdEyeView/BirdEyeData",
+            type: "GET",
+            data: { FLAG: 0, MACHINEID: machineID, BUID: BUID, COMPANYID: companyID, SITEID: siteID, CLASSID: classID, deviceType: deviceType },
+            success: function (data) {
+
+                $("#MapDiv").empty('');
+                $("#MapDiv").html(data);
+            },
+            error: function () {
+                alert("error");
+            }
+
+        })
+    }
+</script>
+
+<div class="row wrapper border-bottom white-bg page-heading" style="margin-left:-14px;margin-right:-15px;">
+    <div class="col-lg-12">
+        <h2>
+            Dashboard <a class="collapse-link pull-right" onclick="filterShowHide();">
+                <i class="fa fa-sliders fa-lg"></i>
+            </a>
+        </h2>
+    </div>
+
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight gray-bg">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title" id="filter">
+                    @Html.Partial("~/Views/Dashboards/Filter.cshtml")
+                    @*<div>
+                        <button class="btn btn-sm btn-primary" onclick="SaveDashboard();">Save Dashboard</button>
+                    </div>*@
+                </div>
+                <div id="DashboardDataDiv">
+                    @*@Html.Action("DashboardData", "Dashboards", new { FLAG = 0, MACHINEID = 0, DESC = "", CLASSID = 0, BUID = 0, COMPANYID = 0, SITEID = 0 })*@
+                </div>
+                @*<div class="" id="MapDiv">*@
+                @*@Html.Action("BirdEyeData", "BirdEyeView", new { FLAG = 0, MACHINEID = 0, BUID = 0, COMPANYID = 0, SITEID = 0, CLASSID = 0 })*@
+
+                @*@Html.Action("GetMap", "Dashboards", new { FLAG = 0, MACHINEID = 0, ClassID = 0, DESC = "" })*@
+                @*</div>*@
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&amp;key=@ViewBag.MapKey"></script>

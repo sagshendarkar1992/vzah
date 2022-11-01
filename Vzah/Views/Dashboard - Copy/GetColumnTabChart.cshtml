@@ -1,0 +1,304 @@
+﻿@model ModelPortal.DashboardModel.DashboardConfig
+@{
+    Layout = null;
+    int i = 0;
+}
+
+
+<div class="ibox-title">
+    <h5>@Model.LST[0].NAME</h5>
+    <div class="ibox-tools">
+        <a class="collapse-link">
+            <i class="fa fa-chevron-up"></i>
+        </a>
+    </div>
+</div>
+<div class="ibox-content">
+
+    <div class="tabs-container" id="Tab_HighCharts_Configure_@Model.LST[0].ID">
+        <ul class="nav nav-tabs" role="tablist">
+            @foreach (var obj in Model.LST)
+            {
+                if (i == 0)
+                {
+                    <li><a class="nav-link active" data-toggle="tab" href="#tab-@obj.NAME"> @obj.LABEL</a></li>
+                }
+                else
+                {
+                    <li><a class="nav-link" data-toggle="tab" href="#tab-@obj.NAME">@obj.LABEL</a></li>
+                }
+                i++;
+            }
+        </ul>
+        <div class="tab-content">
+            @{ i = 0;}
+            @foreach (var obj in Model.LST)
+            {
+                if (i == 0)
+                {
+                    <div role="tabpanel" id="tab-@obj.NAME" class="tab-pane active">
+                        <div class="panel-body">
+                            <div id="@obj.NAME" class="HighCharts_Configure_@Model.LST[0].ID"  style="@obj.Style"></div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div role="tabpanel" id="tab-@obj.NAME" class="tab-pane">
+                        <div class="panel-body">
+                            <div id="@obj.NAME"  class="HighCharts_Configure_@Model.LST[0].ID" style="@obj.Style"></div>
+                        </div>
+                    </div>
+                }
+                i++;
+            }
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<script>
+   
+
+     $(document).ready(function () {
+          @foreach (var obj in Model.LST)
+          {
+              <text>
+         //$("#ULID").append('<li>@obj.NAME</li>');
+         Highcharts.chart('@obj.NAME', {
+             chart: {
+                 type: 'column'
+             },
+             title: {
+                 text: '@obj.TITLE'
+             },
+             subtitle: {
+                 text: '@obj.SUBTITLE'
+             },
+             xAxis: {
+                 //type: 'category'
+                      categories: [@Html.Raw(obj.CATEGORIES)],
+        crosshair: true
+             },
+             yAxis: {
+                 min: 0,
+                 title: {
+                     text: '@obj.YAXISLABEL'
+                 }
+             },
+             tooltip: @Html.Raw(obj.tooltip),
+             plotOptions: @Html.Raw(obj.plotOptions),
+             //series:[{name: "Sites", colorByPoint: true,data: [{name: "1388",y: 14690.00,drilldown: "1388"}, {name: "1389",y: 10212.00,drilldown: "1389"}]}, drilldown: { series: [{ {name: "1388", id: "1388",data: [["JMC1",5352.00],["JMC2",14690.00]]}, {name: "1389", id: "1389",data: [["JMC3",10212.00],["JMC4",1946.00]]}}]}]  ,
+             series: [@Html.Raw(obj.LABELVALUE)],
+             @*drilldown: {@Html.Raw(obj.DRILLLABELVALUE)},*@
+                  });
+
+         debugger
+                //Highcharts.charts[@obj.ID].reflow();
+        //var x = $("#@Model.LST[0].ID").parent().width();
+          @*var ulwidth_Parent = $("#@Model.LST[0].ID").width();
+         var ulheight_Parent = $("#@Model.LST[0].ID").height();*@
+         $("#@obj.NAME").highcharts().setSize($("#@Model.LST[0].ID").parent().width() - 90, $("#@Model.LST[0].ID").parent().height() - 180, false);
+
+         </text>
+              }
+
+
+     });
+
+                  
+</script>
+
+@*<div class="ibox ">*@
+@*<div class="ibox-title">
+            <h5>@Model.LST[0].TITLE</h5>
+        </div>
+        <div class="ibox-content">
+            <div id="@Model.LST[0].NAME" style="@Model.LST[0].Style" ></div>
+        </div>
+    </div>*@
+@*</div>*@
+
+@*<div class="col-md-@Model.LST[0].ColumnWidth" style="padding-right:1px;margin-top:-15px;">
+    <div class="ibox">
+        <div class="ibox-title">
+            <h5>@Model.LST[0].NAME</h5>
+            <div class="ibox-tools">
+                <a class="close-link">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            @if (Model.LST[0].SUBVALALIGNMENT == "TOP")
+            {
+                <div class="row">
+                    <div class="col-4">
+                        <small class="stats-label">Pages / Visit</small>
+                        <h4>236 321.80</h4>
+                    </div>
+
+                    <div class="col-4">
+                        <small class="stats-label">% New Visits</small>
+                        <h4>46.11%</h4>
+                    </div>
+                    <div class="col-4">
+                        <small class="stats-label">Last week</small>
+                        <h4>432.021</h4>
+                    </div>
+                </div>
+                <div id="@Model.LST[0].NAME" style="@Model.LST[0].Style"></div>
+
+            }
+            else if (Model.LST[0].SUBVALALIGNMENT == "BOTTOM")
+            {
+                <div id="@Model.LST[0].NAME" style="@Model.LST[0].Style"></div>
+                <div class="row">
+                    <div class="col-4">
+                        <small class="stats-label">Pages / Visit</small>
+                        <h4>236 321.80</h4>
+                    </div>
+
+                    <div class="col-4">
+                        <small class="stats-label">% New Visits</small>
+                        <h4>46.11%</h4>
+                    </div>
+                    <div class="col-4">
+                        <small class="stats-label">Last week</small>
+                        <h4>432.021</h4>
+                    </div>
+                </div>
+            }
+            else if (Model.LST[0].SUBVALALIGNMENT == "LEFT")
+            {
+                <div class="row  border-bottom white-bg dashboard-header">
+
+                    <div class="col-md-3">
+                        <h2>Welcome</h2>
+                        <small>You have 42 messages and 6 notifications.</small>
+                        <ul class="list-group clear-list m-t">
+                            @foreach (var obj in Model.LST.OrderBy(x => x.SequenceNo))
+                            {
+                                if (obj.IsActive && obj.PID > 0 && obj.SUBVALALIGNMENT == "LEFT")
+                                {  <li class="list-group-item fist-item">
+                                        <span class="float-right">
+                                            @obj.VALUE
+                                        </span>
+                                        <span class="label label-success">1</span> @obj.TITLE
+                                    </li>
+                                }
+                            }
+                                </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="@Model.LST[0].NAME" style="@Model.LST[0].Style"></div>
+                        <div class="row text-left">
+                            <div class="col">
+                                <div class=" m-l-md">
+                                    <span class="h5 font-bold m-t block">$ 406,100</span>
+                                    <small class="text-muted m-b block">Sales marketing report</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <span class="h5 font-bold m-t block">$ 150,401</span>
+                                <small class="text-muted m-b block">Annual sales revenue</small>
+                            </div>
+                            <div class="col">
+                                <span class="h5 font-bold m-t block">$ 16,822</span>
+                                <small class="text-muted m-b block">Half-year revenue margin</small>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="statistic-box">
+                            <h4>
+                                Project Beta progress
+                            </h4>
+                            <p>
+                                You have two project with not compleated task.
+                            </p>
+                            <div class="row text-center">
+                                <div class="col-lg-6">
+                                    <canvas id="doughnutChart2" width="80" height="80" style="margin: 18px auto 0px; display: block;"></canvas>
+                                    <h5>Kolter</h5>
+                                </div>
+                                <div class="col-lg-6">
+                                    <canvas id="doughnutChart" width="80" height="80" style="margin: 18px auto 0px; display: block;"></canvas>
+                                    <h5>Maxtor</h5>
+                                </div>
+                            </div>
+                            <div class="m-t">
+                                <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            }
+            else if (Model.LST[0].SUBVALALIGNMENT == "RIGHT")
+            {
+                <div class="row  border-bottom white-bg dashboard-header">
+
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-lg-9">
+                                <div class="flot-chart">
+                                    <div id="@Model.LST[0].NAME" style="@Model.LST[0].Style"></div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <ul class="stat-list">
+                                    <li>
+                                        <h2 class="no-margins">2,346</h2>
+                                        <small>Total orders in period</small>
+                                        <div class="stat-percent">48% <i class="fa fa-level-up text-navy"></i></div>
+                                        <div class="progress progress-mini">
+                                            <div style="width: 48%;" class="progress-bar"></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h2 class="no-margins ">4,422</h2>
+                                        <small>Orders in last month</small>
+                                        <div class="stat-percent">60% <i class="fa fa-level-down text-navy"></i></div>
+                                        <div class="progress progress-mini">
+                                            <div style="width: 60%;" class="progress-bar"></div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h2 class="no-margins ">9,180</h2>
+                                        <small>Monthly income from orders</small>
+                                        <div class="stat-percent">22% <i class="fa fa-bolt text-navy"></i></div>
+                                        <div class="progress progress-mini">
+                                            <div style="width: 22%;" class="progress-bar"></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+            else
+            {
+                <div class="row  border-bottom white-bg dashboard-header">
+                    <div class="ibox-content" style="@Model.LST[0].Style">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="flot-chart">*@
+@*<div id="@Model.LST[0].NAME" ></div>*@
+@*</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>*@
+

@@ -1,0 +1,235 @@
+﻿<div class="row">
+
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Business Unit</label>
+            <select class="form-control no-padding js-data-example-ajax" style="width:100%!important" id="BUID" name="BUID"></select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Company</label>
+            <select class="form-control no-padding js-data-example-ajax" style="width:100%!important" id="COMPANYID" name="COMPANYID"></select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Site</label>
+            <select class="form-control no-padding js-data-example-ajax" style="width:100%!important" id="SITEID" name="SITEID"></select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <label>Class</label>
+        <select class="form-control no-padding js-data-example-ajax" style="width:100%!important" id="CLASSID" name="CLASSID"></select>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Equipement</label>
+            <select class="form-control no-padding js-data-example-ajax" style="width:100%!important" id="MACHINEID" name="MACHINEID"></select>
+        </div>
+    </div>
+    @if(ViewBag.SearchDateFilter=="true")
+    {
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Search</label>
+            <input type="text" id="TEXTSEARCH" class="form-control" placeholder="Enter to search" />
+        </div>
+    </div>
+    <div class="col-md-3">
+            <label class="font-normal">Date Range select</label>
+            <spa class="input-daterange input-group" id="datepicker">
+                <input type="text" class="form-control-sm form-control" id="FROMDATE" name="FROMDATE" value="@DateTime.Now.ToString("dd'-'MMM'-'yyyy")" />
+                <span class="input-group-addon">to</span>
+                <input type="text" class="form-control-sm form-control" id="TODATE" name="TODATE" value="@DateTime.Now.ToString("dd'-'MMM'-'yyyy")" />
+            </spa>
+    </div>
+    }
+
+    <div class="col-md-3">
+        <div class="">
+            <br>
+            <button class="btn btn-primary dim" onclick="btnFilterClick('')" type="button"><i class="fa fa-filter"></i></button>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        FillMachine();
+        FillClass();
+        FillSite();
+        FillBU();
+        FillCompany();
+
+        $('#FROMDATE,#TODATE').datepicker({
+            keyboardNavigation: false,
+            forceParse: false,
+            autoclose: true,
+            todayHighlight: true,
+            format: 'dd-M-yyyy'
+            //dateFormat: 'dd-MMM-yyyy' 
+        });
+    });
+
+    function FillBU() {
+        $('#BUID').select2({
+            placeholder: "Select BU",
+            allowClear: true,
+            ajax: {
+                dataType: "json",
+                url: "/Help/GetBUCode/",
+                data: function (term) {
+
+                    return {
+                        Flag: parseInt(0),
+                        BUID: parseInt(0),
+                        DESC: term.term
+                    };
+                },
+                processResults: function (data) {
+
+                    return {
+                        results: data
+                    };
+                }
+            }
+        }).on("change", function (e) {
+            $('#COMPANYID').select2('val','');
+            $('#SITEID').select2('val', '');
+            $('#CLASSID').select2('val', '');
+            $('#MACHINEID').select2('val', '');
+        });
+    }
+
+    function FillCompany() {
+        $('#COMPANYID').select2({
+            placeholder: "Select Company",
+            allowClear: true,
+            ajax: {
+                dataType: "json",
+                url: "/Help/GetCompanyCode/",
+                data: function (term) {
+
+                    return {
+                        Flag: parseInt(0),
+                        COMPANYID: parseInt(0),
+                        DESC: term.term,
+                        BUID: $("#BUID").val()
+
+                    };
+                },
+                processResults: function (data) {
+
+                    return {
+                        results: data
+                    };
+                }
+            }
+        }).on("change", function (e) {
+            $('#SITEID').select2('val', '');
+            $('#CLASSID').select2('val', '');
+            $('#MACHINEID').select2('val', '');
+        });
+    }
+
+
+    function FillSite() {
+
+        $('#SITEID').select2({
+            placeholder: "Select Site",
+            allowClear: true,
+            ajax: {
+                dataType: "json",
+                url: "/Help/GetSiteCode/",
+                data: function (term) {
+
+                    return {
+                        Flag: parseInt(0),
+                        SITEID: parseInt(0),
+                        DESC: term.term,
+                        BUID: $("#BUID").val(),
+                        COMPANYID: $("#COMPANYID").val()
+                    };
+                },
+                processResults: function (data) {
+
+                    return {
+                        results: data
+                    };
+                }
+            }
+        }).on("change", function (e) {
+            $('#CLASSID').select2('val', '');
+            $('#MACHINEID').select2('val', '');
+        });
+    }
+
+    function FillClass() {
+        $('#CLASSID').select2({
+            placeholder: "Select Class",
+            allowClear: true,
+            ajax: {
+                dataType: "json",
+                url: "/Help/GetClass/",
+                data: function (term) {
+
+                    return {
+                        Flag: parseInt(1),
+                        CLASSID: parseInt(0),
+                        DESC: term.term,
+                        BUID: $("#BUID").val(),
+                        COMPANYID: $("#COMPANYID").val(),
+                        SITEID: $("#SITEID").val()
+                    };
+                },
+                processResults: function (data) {
+
+                    return {
+                        results: data
+                    };
+                }
+            }
+        }).on("change", function (e) {
+            $('#MACHINEID').select2('val', '');
+
+        });
+    }
+
+    function FillMachine() {
+        $('#MACHINEID').select2({
+            placeholder: "Select Equipment",
+            allowClear: true,
+            ajax: {
+                dataType: "json",
+                url: "/Help/GetMachineMast/",
+                data: function (term) {
+
+                    return {
+                        Flag: parseInt(0),
+                        MACHINEID: parseInt(0),
+                        DESC: term.term,
+                        CLASSID: $("#CLASSID").val(),
+                        BUID: $("#BUID").val(),
+                        COMPANYID: $("#COMPANYID").val(),
+                        SITEID: $("#SITEID").val()
+                    };
+                },
+                processResults: function (data) {
+
+                    return {
+                        results: data
+                    };
+                }
+            }
+        }).on("change", function (e) {
+        });
+    }
+    function filterShowHide() {
+        $("#filter").toggle();
+    }
+</script>

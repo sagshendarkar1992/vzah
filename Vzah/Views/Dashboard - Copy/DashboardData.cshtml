@@ -1,0 +1,1092 @@
+﻿@model ModelPortal.Dashboard
+
+@{
+    ViewBag.Title = "DashboardData";
+    Layout = null;
+    string LLabel = Convert.ToString(ViewBag.LABEL);
+    string[] values = LLabel.Split(',');
+    if (values.Length > 10)
+    {
+        <style>
+            canvas {
+        width: 1200px !important;
+        height: 390px !important;
+        }
+
+        </style>
+    }
+}
+
+<style>
+    #myPerformance {
+        height: 600px;
+    }
+    .scrollit {
+    overflow:scroll;
+    height: 265px;
+    }
+    .scrollit::-webkit-scrollbar {
+  display: none;
+        }
+    .highcharts-figure, .highcharts-data-table table {
+        min-width: 320px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #EBEBEB;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+
+    .ld-label {
+        width: 200px;
+        display: inline-block;
+    }
+
+    .ld-url-input {
+        width: 500px;
+    }
+
+    .ld-time-input {
+        width: 40px;
+    }
+
+</style>
+<style>
+    .padding_left_right {
+        padding: 0;
+        /*padding-right: 0;
+        padding-left: 0;*/
+    }
+
+    .DivHeight {
+        height: 245px !important;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    .border-left {
+        /*border-color: #808080 !important;*/
+    }
+
+    .chartWrapper {
+        position: relative;
+    }
+
+        .chartWrapper > canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+        }
+
+    .chartAreaWrapper {
+        /*width: 600px;*/
+        overflow-x: scroll;
+    }
+
+
+    /*.can{
+        height: 390px !important;
+        width: 1200px !important;
+    }*/
+</style>
+
+<script src="~/assets/js/Highcharts-5.0.6/modules/exporting.js"></script>
+<script src="~/assets/js/Highcharts-5.0.6/highcharts-3d.js"></script>
+
+<script>
+    //$("#Warning").toggle();
+    $(document).ready(function () {
+
+
+        @*Highcharts.chart('myPerformance', {
+            chart: {
+                type: 'column'
+            },
+            exporting: { enabled: false },
+            title: {
+                text: null, //'Stacked column chart'
+            },
+            xAxis: {
+                categories: [@Html.Raw(ViewBag.P_LABEL)]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'In - Testing'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: ( // theme
+                            Highcharts.defaultOptions.title.style &&
+                            Highcharts.defaultOptions.title.style.color
+                        ) || 'gray'
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -30,
+                verticalAlign: 'top',
+                y: 25,
+                floating: true,
+                backgroundColor:
+                    Highcharts.defaultOptions.legend.backgroundColor || 'white',
+                borderColor: '#CCCCCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+                headerFormat: '<b>{point.x}</b><br/>',
+                pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+                       series: [@Html.Raw(ViewBag.P_VAL)]
+        });*@
+
+        @*Highcharts.chart('myPerformance', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: null
+            },
+            subtitle: {
+                text: null
+            },
+            xAxis: {
+                categories: [@Html.Raw(ViewBag.P_LABEL)]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: null
+                }
+            },
+            legend: {
+                enabled: true
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: false
+                    },
+                    enableMouseTracking: false
+                }
+            },
+            series: [@Html.Raw(ViewBag.P_VAL)]
+        });*@
+     });
+</script>
+
+
+<div class="row" style="margin-bottom: -39px;">
+    <div class="col-lg-12 padding_left_right">
+        <div class="row">
+            <div class="col-lg-3" style="margin-top:-15px;">
+                <div class="row">
+                    <div class="col-md-6" style="padding-right:1px;">
+                        <div class="ibox " id="Owned">
+                            <div class="ibox-title">
+                                <h5>Owned</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <a onclick="btnFilterClick('OWNED')">
+                                    <h3 style="color:#1c84c6;" class="no-margins">
+                                        @ViewBag.OWNED
+                                    </h3>
+                                </a>
+                                <small class="stat-percent font-bold text-success">
+                                    @(ViewBag.OWNED == null || ViewBag.OWNED == "" ? "-" : (Convert.ToDouble(ViewBag.OWNED) * 100 / Convert.ToDouble(Model.NUMBEROFDEPLOYMENT)).ToString("0.##"))%
+                                    <i class="fa fa-level-up"></i>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-left:0;">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h5>Hired</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <a onclick="btnFilterClick('HIRED')">
+                                    <h3 style="color:#1c84c6;" class="no-margins">
+                                        @ViewBag.HIRED
+                                    </h3>
+                                </a>
+                                <small class="stat-percent font-bold text-success">
+                                    @(ViewBag.HIRED == null  || ViewBag.HIRED == "" ? "-" : (Convert.ToDouble(ViewBag.HIRED) * 100 / Convert.ToDouble(Model.NUMBEROFDEPLOYMENT)).ToString("0.##"))%
+                                    <i class="fa fa-level-up"></i>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-right:1px;margin-top:-25px;">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h5>Deployment</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <a onclick="ViewRunningStatus(2);">
+                                    <h3 style="color:#1c84c6;" class="no-margins">
+                                        @(string.IsNullOrEmpty(Model.NUMBEROFDEPLOYMENT) ? "-" : Model.NUMBEROFDEPLOYMENT)
+                                    </h3>
+                                </a>
+                                <small class="stat-percent font-bold text-success">100% <i class="fa fa-level-up"></i></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-left:0;margin-top:-25px;">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h5>Available</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <a onclick="ViewRunningStatus(1);">
+                                    <h3 style="color:#1c84c6;" class="no-margins">
+                                        @(Model == null ? "-" : Model.NUMBEROFAVAILABLE)
+                                    </h3>
+                                    <small class="stat-percent font-bold text-navy">
+                                        @(Model == null ? "-" : (Convert.ToDouble(Model.NUMBEROFAVAILABLE) * 100 / Convert.ToDouble(Model.NUMBEROFDEPLOYMENT)).ToString("0.##"))%
+                                        <i class="fa fa-level-up"></i>
+                                    </small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-right:1px;margin-top:-25px;">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h5>Maintainance</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <a href="/maintananceMast/GetMaintananceMast">
+                                    <h3 style="color:#1c84c6;" class="no-margins">
+                                        0@*@(Model == null ? "-" : Model.NUMBEROFBREAKDOWN)*@
+                                    </h3>
+                                </a>
+                                @*<small class="stat-percent font-bold text-warning">@(Model == null ? "-" : (Convert.ToDouble(Model.NUMBEROFBREAKDOWN) * 100 / Convert.ToDouble(Model.NUMBEROFDEPLOYMENT)).ToString("0.##"))%<i class="fa fa-level-down"></i></small>*@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-left:0;margin-top:-25px;">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h5>Breakdown</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <a href="/Breakdown/GetBreakdown">
+                                    <h3 style="color:#1c84c6;" class="no-margins">
+                                        @(Model == null ? "-" : Model.NUMBEROFBREAKDOWN)
+                                    </h3>
+                                </a>
+                                <small class="stat-percent font-bold text-danger">@(Model == null ? "-" : (Convert.ToDouble(Model.NUMBEROFBREAKDOWN) * 100 / Convert.ToDouble(Model.NUMBEROFDEPLOYMENT)).ToString("0.##"))% <i class="fa fa-level-down"></i></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 padding_left_right">
+                <div class="ibox" style="margin-top:-15px;">
+                    <div class="ibox-content">
+                        <div>
+                            <span class="float-right text-right">
+                                All : @Model.NUMBEROFDEPLOYMENT
+                            </span>
+                            <h4 class="font-bold no-margins">
+                                Site Wise Utilization
+                            </h4>
+                        </div>
+
+                        <div class="m-t-sm">
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div>
+                                        <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                                        <canvas id="myChart" style="display: block; width: 468px; height: 250px;" width="468" class="chartjs-render-monitor"></canvas>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            @*
+            warning div
+            *@
+            <div class="col-lg-3">
+                <div class="ibox" style="margin-top:-15px;">
+                    <div class="ibox-title">
+                        <h5>Warning</h5>
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div id="myWarning" style="height:225px;overflow:auto;"></div>
+                    </div>
+                </div>
+            </div>
+
+
+
+           
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="col-md-12 padding_left_right">
+                    <div class="ibox" style="margin-top:-15px;">
+                        <div class="ibox-title">
+                            <h5>Best Performance</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content" style="height:296px;padding: 2px;">
+
+                            @* Pivot Start *@
+                            @*<div class="scrollit">
+            <table class="">
+                <thead class="">
+                    <tr style="font-size:10px;background-color: #404c72;color: #fff;">
+                        <th style="text-align: center; border: 1px solid black;" colspan="4">Fuel Consumption</th>
+                    </tr>
+                    <tr style="font-size:10px;background-color: #404c72;color: #fff;">
+                        <th style="text-align: center; border: 1px solid black;">
+                            BU
+                        </th>
+
+                        <th style="text-align: center;border: 1px solid black;">
+                            EQP COUNT
+                        </th>
+
+                        <th style="text-align: center;border: 1px solid black;">
+                            BEST PERFORM.
+                        </th>
+                        <th style="text-align: center;border: 1px solid black;">
+                            PERFOR MANCE(%)
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody style="font-weight: bold;">
+
+                    @foreach (ModelPortal.BestPerformance p in ViewBag.bstPerListFUEL)
+                    {
+                        <tr>
+                            <td style="font-size: 8px; border: 1px solid black;background-color: #404c72;color: #fff;">@p.buName</td>
+
+                            <td style="font-size: 15px; text-align: center;border: 1px solid black;background-color:#dbdad8;color:#404c72;">
+                                @p.EGP_COUNT
+                            </td>
+
+                            <td style="font-size: 15px;text-align: center;border: 1px solid black;background-color:#dbdad8;color:#404c72;">
+                                <a href="/FuelConsumption/FuelConsumption?clkstatus=1&BUID=@p.buID">
+                                    @p.bstFuelConsumption
+                                </a>
+                            </td>
+
+                            <td style="font-size: 15px;text-align: center;border: 1px solid black;background-color:#dbdad8;color:#404c72;">
+                                @p.PERFORM_PERCENTAGE_FUEL
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+            <table class="">
+                <thead class="">
+                    <tr style="font-size:10px;background-color: #404c72;color: #fff;">
+                        <th style="text-align: center;border: 1px solid black;" colspan="4">Productivity</th>
+                    </tr>
+                    <tr style="font-size:10px;font-size:10px;background-color: #404c72;color: #fff;">
+                        <th style="text-align: center;border: 1px solid black;">
+                            BU
+                        </th>
+
+                        <th style="text-align: center;border: 1px solid black;">
+                            EQP COUNT
+                        </th>
+
+                        <th style="text-align: center;border: 1px solid black;">
+                            BEST PERFORM.
+                        </th>
+                        <th style="text-align: center;border: 1px solid black;">
+                            PERFOR MANCE(%)
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody  style="font-weight: bold;">
+
+                    @foreach (ModelPortal.BestPerformance p in ViewBag.bstPerListPROD)
+                    {
+                        <tr>
+                            <td style="font-size: 8px;border: 1px solid black;background-color: #404c72;color: #fff;">@p.buName</td>
+
+                            <td style="font-size: 15px;text-align: center;border: 1px solid black;background-color:#dbdad8;color:#404c72;">
+                                @p.EGP_COUNT
+                            </td>
+
+                            <td style="font-size: 15px;text-align: center;border: 1px solid black;background-color:#dbdad8;color:#404c72;">
+                                <a href="/Productivity/Productivity?clkstatus=1&BUID=@p.buID">
+                                    @p.bstProductivity
+                                </a>
+                            </td>
+                            <td style="font-size: 15px;text-align: center;border: 1px solid black;background-color:#dbdad8;color:#404c72;">
+                                @p.PERFORM_PERCENTAGE_PROD
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>*@
+                            @* Pivot End *@
+
+                            <div id="myPerformance"></div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                @*<div class="col-md-12 padding_left_right">
+
+            </div>*@
+            </div>
+            <div class="col-lg-6 padding_left_right">
+                <div class="ibox" style="margin-top:-15px;">
+                    <div class="ibox-title">
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                        <h4 class="font-bold no-margins">
+                            Bird Eye View
+                        </h4>
+                    </div>
+                    <div class="ibox-content">
+                        <div style="height:270px;">
+                            <div class="DivHeight" id="MapDiv">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @* alerts div *@
+            <div class="col-lg-3">
+                <div class="ibox" style="margin-top:-15px;">
+                    <div class="ibox-title">
+                        <h5>Alerts</h5>
+                        <div class="ibox-tools">
+
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <div id="myAlert" style="height:260px;overflow:auto;"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+       var markers = @Html.Raw(ViewBag.Markers);
+    var polygon = @Html.Raw(ViewBag.GEOFENCE);
+        $(document).ready(function () {
+            //initMap();
+            // Collapse ibox function Below code added by Mr. Purushottam A Tayade 06/12/2019 for collapse graph ibox
+            $('.collapse-link').on('click', function (e) {
+                e.preventDefault();
+                var ibox = $(this).closest('div.ibox');
+                var button = $(this).find('i');
+                var content = ibox.children('.ibox-content');
+                content.slideToggle(200);
+                button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
+                ibox.toggleClass('').toggleClass('border-bottom');
+                setTimeout(function () {
+                    ibox.resize();
+                    ibox.find('[id^=map-]').resize();
+                }, 50);
+            });
+
+            // Close ibox function
+            $('.close-link').on('click', function (e) {
+                e.preventDefault();
+                var content = $(this).closest('div.ibox');
+                content.remove();
+            });
+    });
+
+        var infoWindow;
+            var map;
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('dvMap'), {
+                    zoom:8,
+                    center: new google.maps.LatLng(markers[0].lat, markers[0].lng)
+                    //mapTypeId: 'terrain'
+                });
+                var infoWindow = new google.maps.InfoWindow();
+                var latlngbounds = new google.maps.LatLngBounds();
+                var bermudaTriangle;
+
+
+                for (i = 0; i < markers.length; i++) {
+                    var data = markers[i]
+                    var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                    //var icon = "";
+                    //switch (data.color) {
+                    //    case "Red":
+                    //        icon = "red";
+                    //        break;
+                    //    case "Blue":
+                    //        icon = "blue";
+                    //        break;
+                    //    case "Yellow":
+                    //        icon = "yellow";
+                    //        break;
+                    //    case "Green":
+                    //        icon = "green";
+                    //        break;
+                    //}
+                    //icon ="http://maps.google.com/mapfiles/ms/icons/" + icon + ".png";
+                     var image="";
+                    if (data.IMAGEPATH != "" && data.IMAGEPATH !=null) {
+                       image = '@ViewBag.ImagePath'+data.IMAGEPATH;
+
+                    } else {
+                       image = 'http://watest.kloudqapps.com/images/kranes.png';
+                    }
+
+                    var marker = new google.maps.Marker({
+                        position: myLatlng,
+                        map: map,
+                        title: data.title,
+                        animation: google.maps.Animation.BOUNCE,
+                        icon: image
+
+                    });
+                    (function (marker, data) {
+                        google.maps.event.addListener(marker, "click", function (e) {
+                            infoWindow.setContent("<b>Euipment-</b>" + data.title + " - " + data.description + " ,<br>  <b>BU- </b>" + data.BUCODE + " ,<br>  <b>Company - </b>" + data.COMPANYCODE + " ,<br>  <b>Site - </b>" + data.SITECODE + " ,<br>  <b>Class - </b>" + data.CLASSCODE + " ,<br>  <b>Entry Date - </b>" + data.ENTRYDATE + " ,<br>  <b>RunHrs - </b>" + data.RUNHRS);
+                            infoWindow.open(map, marker);
+                        });
+                        google.maps.event.addListener(marker, "dblclick", function (e) {
+                            infoWindow.setContent("<b>Euipment-</b>" + data.title + " - " + data.description + " ,<br>  <b>BU- </b>" + data.BUCODE + " ,<br>  <b>Company - </b>" + data.COMPANYCODE + " ,<br>  <b>Site - </b>" + data.SITECODE + " ,<br>  <b>Class - </b>" + data.CLASSCODE + " ,<br>  <b>Entry Date - </b>" + data.ENTRYDATE + " ,<br>  <b>RunHrs - </b>" + data.RUNHRS);
+                            infoWindow.open(map, marker);
+                            window.location.href = "/Fleet/GetMachineSpecification?FLAG=0&MACHINEID=" + data.machineID + "&ISHOW=" + 1;
+                        });
+                    })(marker, data);
+                    marker.setAnimation(4);
+                }
+
+                for (var j = 0; j < polygon.length; j++) {
+                    
+                    var data = polygon[j]
+                    var a = eval("[" + data.cords + "]");
+                    //alert(a);
+                    var bermudaTriangle = new google.maps.Polygon({
+                        paths: [a],
+                        //paths: [new google.maps.LatLng(22.128554,77.500067),new google.maps.LatLng(21.669845,77.060614),new google.maps.LatLng(21.434827,78.104315)],
+                        strokeColor: '#FF0000',
+                        strokeOpacity: 0.8,
+                        strokeWeight: 3,
+                        fillColor: '#FF0000',
+                        fillOpacity: 0.35,
+                        map: map
+                    });
+                }
+
+
+                //var bermudaTriangle = new google.maps.Polygon({
+                //    paths: [
+                //        new google.maps.LatLng(25.774252, -80.190262),
+                //        new google.maps.LatLng(18.466465, -66.118292),
+                //        new google.maps.LatLng(32.321384, -64.75737),
+                //        ],
+                //    strokeColor: '#FF0000',
+                //    strokeOpacity: 0.8,
+                //    strokeWeight: 3,
+                //    fillColor: '#FF0000',
+                //    fillOpacity: 0.35,
+                //    map: map
+                //});
+
+                // Construct the polygon.
+
+
+                //Add a listener for the click event.
+                //bermudaTriangle.addListener('click', showArrays);
+
+            }
+
+        function showArrays(event) {
+            infoWindow = new google.maps.InfoWindow;
+            // Since this polygon has only one path, we can call getPath() to return the
+            // MVCArray of LatLngs.
+            var vertices = this.getPath();
+
+            var contentString = '<b>Bermuda Triangle polygon</b><br>' +
+                'Clicked location: <br>' + event.latLng.lat() + ',' + event.latLng.lng() +
+                '<br>';
+
+            // Iterate over the vertices.
+            for (var i = 0; i < vertices.getLength(); i++) {
+                var xy = vertices.getAt(i);
+                contentString += '<br>' + 'Coordinate ' + i + ':<br>' + xy.lat() + ',' +
+                    xy.lng();
+            }
+
+            // Replace the info window's content and position.
+            infoWindow.setContent(contentString);
+            infoWindow.setPosition(event.latLng);
+
+            infoWindow.open(map);
+        }
+
+</script>
+
+<script type="text/javascript">
+    var getColor = [
+        '#9399C8',
+        '#85CA85',
+        '#E6BF00',
+        '#19AAFF',
+        '#FF1999',
+        '#0caece',
+        '#f46929',
+        '#d000ff',
+        '#ff0080',
+        '#ff0000',
+        '#ffae00',
+        '#cacfce'
+    ];
+
+    $(document).ready(function () {
+
+    Highcharts.chart('myAlert', {
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: null
+        },
+        exporting: { enabled: false },
+        subtitle: {
+            text: null
+        },
+        xAxis: {
+            categories: [@Html.Raw(ViewBag.LABELAL)],
+            title: {
+                text: null
+            }
+        },
+
+
+        yAxis: {
+            min: 0,
+            title: {
+                text: null,
+                align: 'high'
+            },
+            labels: {
+                enabled: false,//default is true
+                overflow: 'justify'
+            }
+        },
+        //tooltip: {
+        //    valueSuffix: ' millions'
+        //},
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                },
+                color:'#fd2f34'
+            },
+            series: {
+                pointWidth: 20,
+            }
+        },
+
+        legend: {
+            enabled: false,
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -40,
+            y: 80,
+            floating: true,
+            borderWidth: 1,
+            //backgroundColor:'#fd2f34',
+               // Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF',
+            shadow: true
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            data: [@Html.Raw(ViewBag.ValueAL)],
+            point: {
+                events: {
+                    click: function (event) {
+                        
+                        //alert(this.name);
+                        ViewAlertDetails(0, this.category);
+                    }
+
+                }
+            }
+        }]
+        });
+    });
+  
+</script>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        var pieColors = (function () {
+            var colors = [],
+                base = Highcharts.getOptions().colors[8],
+                i;
+
+            for (i = 0; i < 10; i += 1) {
+                // Start out with a darkened base color (negative brighten), and end
+                // up with a much brighter color
+                colors.push(Highcharts.Color(base).brighten((i - 3) / 7).get());
+            }
+            return colors;
+        }());
+        //alert(pieColors);
+
+        Highcharts.chart('myWarning', {
+            chart: {
+                type: 'pie',
+                options3d: {
+                    enabled: true,
+                    alpha: 45,
+                    beta: 0
+                }
+            },
+            exporting: { enabled: false },
+            title: {
+                text: null
+            },
+            subtitle: {
+                text: null
+            },
+            plotOptions: {
+                pie: {
+                    //innerSize: 50,
+                    depth: 35,
+                    colors: getColor
+                },
+                series: {
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            fontWeight: '10',
+                        }
+                    },
+                    point: {
+                        events: {
+                            click: function (event) {
+                                //alert(this.name);
+                                ViewWarningDetails(this.name);
+                                //ViewWarningDetails(this.options.y);
+                            }
+
+                        }
+                    }
+                }
+            },
+            series: [{
+                //name: 'Delivered amount',
+                data: [@Html.Raw(ViewBag.ValueWR)
+                    //['Bananas', 8],
+                    //['Kiwi', 3],
+                    //['Mixed nuts', 1],
+                    //['Oranges', 6],
+                    //['Apples', 8],
+                    //['Pears', 4],
+                    //['Clementines', 4],
+                    //['Reddish (bag)', 1],
+                    //['Grapes (bunch)', 1]
+                ]
+            }]
+        });
+    });
+
+
+</script>
+
+<script>
+
+    var ctx = document.getElementById("myChart").getContext('2d');
+    @*if (parseInt('@values.Length') > 9) {
+        ctx.canvas.parentNode.style.width = '1200px';
+    }*@
+
+    //ctx.canvas.parentNode.style.width = '1200px';
+
+        var myChart = new Chart(ctx,
+        {
+            type: 'bar',
+            exporting: { enabled: false },
+        data: {
+            labels: [@Html.Raw(ViewBag.LABEL)], //ViewBag.LLabel
+            //labels: ["1270", "2409", "3447", "3569", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test"],
+            datasets: [
+              
+            {
+                label: 'Productive',
+                backgroundColor: "#00e138",//rgba(35, 198, 200, 1)
+
+                data: [@Html.Raw(ViewBag.RUNNING)]
+            },
+
+                {
+            label: 'Idle',
+                    backgroundColor: "#7092be", //"rgba(209, 218, 222,1)",
+
+                data: [@Html.Raw(ViewBag.SWITCHOFF)],
+                },
+                  {
+            label: 'Non Productive',
+                    backgroundColor: "#ff8040",//rgba(140, 217, 201,1)
+                data: [@Html.Raw(ViewBag.IDLE)]
+            },
+
+            ]
+            },
+
+            //exportEnabled: true,
+        //    onAnimationComplete: function () {
+        //    var sourceCanvas = this.chart.ctx.canvas;
+        //    var copyWidth = this.scale.xScalePaddingLeft - 5;
+        //    // the +5 is so that the bottommost y axis label is not clipped off
+        //    // we could factor this in using measureText if we wanted to be generic
+        //    var copyHeight = this.scale.endPoint + 5;
+        //    var targetCtx = document.getElementById("myChartAxis").getContext("2d");
+        //    targetCtx.canvas.width = copyWidth;
+        //    targetCtx.drawImage(sourceCanvas, 0, 0, copyWidth, copyHeight, 0, 0, copyWidth, copyHeight);
+        //},
+            options: {
+                responsive: true,
+maintainAspectRatio: false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                    }
+                }]
+            }
+        },
+
+
+
+        onClick: function (e) {
+            /*var activePoints = myChart.getElementsAtEvent(e);
+            var selectedIndex = activePoints[0]._index; */
+            /* alert(this.data.datasets[0].data[selectedIndex]);
+            console.log(this.data.datasets[0].data[selectedIndex]);
+            */
+        }
+    });
+
+    function downloadPDF() {
+            /* set new title */
+        myChart.options.title.text = 'New Chart Title';
+        myChart.update({
+                duration: 0
+            });
+            // or, use
+            // chart_variable.update(0);
+
+            /* save as image */
+            var link = document.createElement('a');
+        link.href = myChart.toBase64Image();
+            link.download = 'myImage.png';
+            link.click();
+
+            /* rollback to old title */
+        myChart.options.title.text = 'Chart Title';
+        myChart.update({
+                duration: 0
+            });
+
+    }
+
+
+
+    /* https://github.com/chartjs/Chart.js/issues/2292 */
+    document.getElementById("myChart").onclick = function (evt) {
+        var activePoints = myChart.getElementsAtEventForMode(evt, 'point', myChart.options);
+        var firstPoint = activePoints[0];
+        var label = myChart.data.labels[firstPoint._index];
+        var datasets = myChart.data.datasets[firstPoint._datasetIndex].label;
+        var value = myChart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+        //alert(label +  datasets + value);
+        //alert(label +","+ datasets);
+        var status = datasets;
+        var sitecode = label;
+        ViewFleet(sitecode,status);
+        };
+
+</script>
+@*<script type="text/javascript">
+
+        // set default to straight lines - no curves
+        // Chart.defaults.global.elements.line.tension = 0;
+        // set default no fill beneath the line
+        Chart.defaults.global.elements.line.fill = false;
+
+        // stacked bar with 2 unstacked lines - nope
+        var barChartData = {
+            labels: [@Html.Raw(ViewBag.LABEL)],
+            datasets: [{
+                type: 'bar',
+                label: 'Idle',
+                backgroundColor: "rgba(249,152,145,1)",
+                data: [@Html.Raw(ViewBag.IDLE)],
+                stack: 1
+
+            }, {
+                type: 'bar',
+                    label: 'Running',
+                    backgroundColor: "rgba(92,184,92,0.75)",
+
+                data: [@Html.Raw(ViewBag.RUNNING)],
+                    stack: 2
+
+            },
+            {
+                type: 'bar',
+                label: 'Switch off',
+                backgroundColor: "rgba(133,197,248,1)",
+
+                data: [@Html.Raw(ViewBag.SWITCHOFF)],
+                stack: 3
+            }]
+        };
+
+
+        var ctx = document.getElementById("myChart");
+        // allocate and initialize a chart
+        var ch = new Chart(ctx, {
+            type: 'bar',
+            data: barChartData,
+            options: {
+                title: {
+                    display: false,
+                    text: "Site Wise Utilization",
+                    fontSize: 20,
+                    fontStyle: 'bold'
+                },
+                tooltips: {
+                    mode: 'label'
+                },
+                responsive: true,
+                legend: { display: true, position: 'bottom' },
+                scales: {
+                     yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+
+                        }
+                    }],
+                    xAxes: [{
+                        stacked: true,
+                        autoSkip: false
+                    }]
+
+                },
+                onClick: function (c, i) {
+                    ;
+                    if (i[0] != undefined) {
+                        e = i[0];
+                        console.log(e._index)
+                        var x_value = this.data.labels[e._index];
+                        var y_value = this.data.datasets[0].data[e._index];
+                        alert(x_value + ' ' + y_value);
+                    }
+
+                }
+            }
+        });
+
+
+    </script>*@
+

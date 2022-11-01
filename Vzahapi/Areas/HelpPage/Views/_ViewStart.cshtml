@@ -1,0 +1,11 @@
+﻿@{
+    // Change the Layout path below to blend the look and feel of the help page with your existing web pages
+      if ((string)Session["Department"] == "Super Admin")
+    {
+        Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}

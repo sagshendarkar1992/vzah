@@ -1,0 +1,160 @@
+﻿@model ModelPortal.SpringDashboard
+
+@{
+    ViewBag.Title = "DashboardData";
+    Layout = null;
+}
+<div class="row">
+
+        <div class="col-lg-4">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Available</h5>
+                </div>
+                <div class="ibox-content" style="height:275px">
+                    <div>
+                        <div id="gauge"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Fuel Analysis</h5>
+                </div>
+                <div class="ibox-content" style="height:275px">
+                    <div>
+                        <div id="gauge1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Usage &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Assset :  @Model.MACHINECODE</strong></h5><br />
+                    <h5>@Model.USAGE</h5>
+
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: @Convert.ToDecimal(Model.USAGE)%" role="progressbar" aria-valuenow="@Convert.ToDecimal(Model.USAGE)" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="ibox-content" style="margin-top:20px!important">
+                    <div>
+                        <div id="pie" style="height:180px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Sensor Status</h5>
+                </div>
+                <div class="ibox-content" style="height:275px">
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Exception Status</h5>
+                </div>
+                <div class="ibox-content" style="height:275px">
+                    <div>
+                        <div id="gauge1"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Usage &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Assset :  @Model.MACHINECODE</strong></h5><br />
+                    <h5>@Model.USAGE2</h5>
+
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: @Convert.ToDecimal(Model.USAGE2)%" role="progressbar" aria-valuenow="@Convert.ToDecimal(Model.USAGE2)" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <div class="ibox-content" style="margin-top:20px!important">
+                    <div>
+                        <div id="pie1" style="height:180px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#filter").hide();
+
+        c3.generate({
+            bindto: '#gauge',
+            data: {
+                columns: [
+                    ['data', @Model.AVAILABLEBREAKDOWN]
+                ],
+
+                type: 'gauge'
+            },
+            color: {
+                pattern: ['#1ab394', '#BABABA']
+
+            }
+        });
+        c3.generate({
+            bindto: '#gauge1',
+            data: {
+                columns: [
+                    ['data', @Model.FUELANALYSIS]
+                ],
+
+                type: 'gauge'
+            },
+            color: {
+                pattern: ['#f8ac59', '#BABABA']
+
+            }
+        });
+
+        c3.generate({
+            bindto: '#pie',
+            data: {
+                columns: [
+                    ['AssetParam1', @Model.ASSETPARM1],
+                    ['AssetParam2', @Model.ASSETPARM1]
+                ],
+                colors: {
+                    AssetParam1: '#2077b4',
+                    AssetParam2: '#ff7f0f'
+                },
+                type: 'pie'
+            }
+        });
+
+        c3.generate({
+            bindto: '#pie1',
+            data: {
+                columns: [
+                    ['AssetParam3', @Model.ASSETPARM3],
+                    ['AssetParam4', @Model.ASSETPARM4]
+                ],
+                colors: {
+                    AssetParam3: '#d15e3b',
+                    AssetParam4: '#1bb394'
+                },
+                type: 'pie'
+            }
+        });
+
+    });
+
+
+    </script>
+

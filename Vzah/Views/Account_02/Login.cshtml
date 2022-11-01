@@ -1,0 +1,75 @@
+﻿@model ModelPortal.Login.LogOnModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RemoteTracking | Login</title>
+    <link href="~/Images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Fonts/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/style.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="middle-box text-center loginscreen  animated fadeInDown">
+            <div>
+                <div>
+
+                    @*<h1 class="logo-name">RT</h1>*@
+                    <img src="~/Images/Praj_Logo afcon.png" />
+
+                </div>
+               
+                <h3>Welcome to Remote Tracking</h3>
+                @*<p>
+            Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.
+        </p>
+        <p>Login in. To see it in action.</p>*@
+                <form class="m-t" role="form" action="#">
+                    <div class="form-group">
+                        @{ string returl = ViewBag.returnurl;}
+                        @Html.Hidden("returnurl", returl)
+                        @Html.TextBoxFor(m => m.UserName, new { @placeholder = "Enter username", @class = "form-control" })
+                        @*<input type="text" class="form-control" placeholder="Username" required="">*@
+                    </div>
+                    <div class="form-group">
+                        @*<input type="password" class="form-control" placeholder="Password" required="">*@
+                        @Html.PasswordFor(m => m.Password, new { @placeholder = "Password", @class = "form-control", @autocomplete = "off" })
+                    </div>
+                    <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+
+                    <a href="@Url.Action("ResetByEmail", "Account")"><small>Forgot password?</small></a>
+                </form>
+                <p class="m-t"> <small>Kloudq Technologies Ltd. &copy; 2019</small> </p>
+            </div>
+        </div>
+    }
+</body>
+@section Scripts {
+    <script type="text/javascript">
+        function OnRembermeClick(e) {
+            
+            if (e.checked) {
+                $('#hdRememberMe').val("true");
+            }
+            else {
+                $('#hdRememberMe').val("false");
+            }
+        }
+    </script>
+}
+</html>
+
+

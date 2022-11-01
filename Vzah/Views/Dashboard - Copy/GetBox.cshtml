@@ -1,0 +1,76 @@
+﻿@model ModelPortal.DashboardModel.DashboardConfig
+@{
+    Layout = null;
+}
+@foreach (var obj in Model.LST)
+{
+    @*<div class="ibox" style="margin-top:-15px;">
+            <div class="ibox-title">
+                <h5>@obj.TITLE</h5>
+            </div>
+            <div class="ibox-content">
+                <a onclick="btnFilterClick('OWNED')">
+                    <h3 style="color:#1c84c6;" class="no-margins">
+                        @obj.VALUE
+                    </h3>
+                </a>
+                <small class="stat-percent font-bold text-success">
+                    @obj.LABEL   <i class="@obj.ICON"></i>
+                </small>
+            </div>
+        </div>*@
+    @*<div class="ibox" style="@obj.Style">
+        <div class="ibox-title">
+            <div class="ibox-tools">
+                <span class="@obj.LEGEND">@obj.SUBTITLE</span>
+            </div>
+            <h5>@obj.TITLE</h5>
+        </div>
+        <div class="ibox-content">
+            <h1 class="no-margins">@obj.VALUE</h1>
+            <div class="stat-percent font-bold text-success">98% <i class="@obj.ICON"></i></div>
+            <small>Total views</small>
+        </div>
+    </div>*@
+
+    <div style="margin-top:-15px;">
+        <div class="ibox-title">
+            <div class="ibox-tools">
+                <span class="@obj.DRILLLABELVALUE">@obj.SUBTITLE</span>
+            </div>
+            <h5>@obj.TITLE</h5>
+        </div>
+        <div class="ibox-content"  style="@obj.Style">
+            <h1 class="no-margins">@obj.VALUE</h1>
+            <div class="stat-percent font-bold text-success">@obj.CATEGORIES <i class="@obj.ICON"></i></div>
+            <small>@obj.LABEL</small>
+        </div>
+    </div>
+}
+
+@*<div style="height:70px;width:130px;">
+    <div class="ibox-title">
+        <h5>@Model.LST[0].TITLE</h5>
+    </div>
+    <div class="ibox-content">
+        <a onclick="btnFilterClick('OWNED')">
+            <h3 style="color:#1c84c6;" class="no-margins">
+                @Model.LST[0].VALUE
+            </h3>
+        </a>
+        <small class="stat-percent font-bold text-success">
+            @Model.LST[0].LABEL   <i class="fa fa-level-up"></i>
+        </small>
+    </div>*@
+@*<div class="ibox-title">
+        <div class="ibox-tools">
+            <span class="label label-success float-right">@Model.LST[0].SUBTITLE</span>
+        </div>
+        <h5>@Model.LST[0].TITLE</h5>
+    </div>
+    <div class="ibox-content">
+        <h1 class="no-margins">@Model.LST[0].VALUE</h1>
+        <div class="stat-percent font-bold text-success">@Model.LST[0].LABELVALUE <i class="fa fa-bolt"></i></div>
+        <small>@Model.LST[0].LABEL</small>
+    </div>
+    </div>*@

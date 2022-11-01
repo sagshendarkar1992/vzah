@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "GetReport";
+}
+
+<h2>GetReport</h2>
+
+<script>
+   
+      $(document).ready(function () {
+          ShowSealReport();
+      });
+
+    function ShowSealReport() {
+        var rptname = '@ViewBag.RptName'
+        //alert(rptname);
+        var path = "/" + rptname + ".srex";
+         var server = "/kqbi/"
+        debugger
+     //    $.ajax({
+     //       url: "/kqbi/SWILogin?user=&password=",
+     //       type: 'POST',
+     //       error: function (xhr) {
+     //           //alert('Error: ' + xhr.statusText);
+     //           alert();
+
+     //       },
+     //    success: function (data){
+     //           var f = $('<form method="post" target="_blank" />').appendTo('body');
+     //           f.attr('action', server + "SWExecuteReport");
+     //           f.append($('<input />').attr('name', 'path').attr('value', path));  //the report path, if empty the report definition must be specified
+     //           f.children('input').attr('type', 'hidden');
+     //           f.submit();
+     //       }
+     //});
+
+        $.post(server + "SWILogin", {
+            user: "", // The user name
+            password: "" // The password
+        })
+            .done(function (data) {
+                var f = $('<form method="post" target="_blank" />').appendTo('body');
+                f.attr('action', server + "SWExecuteReport");
+                f.append($('<input />').attr('name', 'path').attr('value', path));  //the report path, if empty the report definition must be specified
+                f.children('input').attr('type', 'hidden');
+                f.submit();
+            });
+        return false;
+          }
+</script>

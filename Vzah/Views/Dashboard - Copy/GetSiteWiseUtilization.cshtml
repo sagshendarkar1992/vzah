@@ -1,0 +1,182 @@
+﻿@model ModelPortal.DashboardModel.DashboardConfig
+@{
+    Layout = null;
+}
+<script>
+       Highcharts.chart('@Model.LST[0].NAME', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '@Model.LST[0].TITLE'
+    },
+    subtitle: {
+        text: '@Model.LST[0].SUBTITLE'
+    },
+    xAxis: {
+        categories: [@Html.Raw(Model.LST[0].CATEGORIES)],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: '@Model.LST[0].YAXISLABEL'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [@Html.Raw(Model.LST[0].LABELVALUE)],
+});
+</script>
+
+<div class="col-md-@Model.LST[0].ColumnWidth" style="padding-right:1px;margin-top:-15px;">
+    <div class="ibox">
+        <div class="ibox-title">
+            <h5>@Model.LST[0].NAME</h5>
+            <div class="ibox-tools">
+                <a class="close-link">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            @if (Model.LST[0].SUBVALALIGNMENT == "TOP")
+            {<div class="row">
+                    <div class="col-4">
+                        <small class="stats-label">Pages / Visit</small>
+                        <h4>236 321.80</h4>
+                    </div>
+
+                    <div class="col-4">
+                        <small class="stats-label">% New Visits</small>
+                        <h4>46.11%</h4>
+                    </div>
+                    <div class="col-4">
+                        <small class="stats-label">Last week</small>
+                        <h4>432.021</h4>
+                    </div>
+                </div>
+                <div id="@Model.LST[0].NAME" style="@Model.LST[0].Style"></div>
+
+            }
+            else if (Model.LST[0].SUBVALALIGNMENT == "BOTTOM")
+            {
+                <div id="@Model.LST[0].NAME" style="@Model.LST[0].Style"></div>
+                <div class="row">
+                    <div class="col-4">
+                        <small class="stats-label">Pages / Visit</small>
+                        <h4>236 321.80</h4>
+                    </div>
+
+                    <div class="col-4">
+                        <small class="stats-label">% New Visits</small>
+                        <h4>46.11%</h4>
+                    </div>
+                    <div class="col-4">
+                        <small class="stats-label">Last week</small>
+                        <h4>432.021</h4>
+                    </div>
+                </div>
+            }
+            else if (Model.LST[0].SUBVALALIGNMENT == "LEFT")
+            {
+                <div class="row  border-bottom white-bg dashboard-header">
+
+                    <div class="col-md-3">
+                        <h2>Welcome</h2>
+                        <small>You have 42 messages and 6 notifications.</small>
+                        <ul class="list-group clear-list m-t">
+                            <li class="list-group-item fist-item">
+                                <span class="float-right">
+                                    09:00 pm
+                                </span>
+                                <span class="label label-success">1</span> Please contact me
+                            </li>
+                            <li class="list-group-item">
+                                <span class="float-right">
+                                    10:16 am
+                                </span>
+                                <span class="label label-info">2</span> Sign a contract
+                            </li>
+                            <li class="list-group-item">
+                                <span class="float-right">
+                                    08:22 pm
+                                </span>
+                                <span class="label label-primary">3</span> Open new shop
+                            </li>
+                            <li class="list-group-item">
+                                <span class="float-right">
+                                    11:06 pm
+                                </span>
+                                <span class="label label-default">4</span> Call back to Sylvia
+                            </li>
+                            <li class="list-group-item">
+                                <span class="float-right">
+                                    12:00 am
+                                </span>
+                                <span class="label label-primary">5</span> Write a letter to Sandra
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="@Model.LST[0].NAME" style="@Model.LST[0].Style"></div>
+                        <div class="row text-left">
+                            <div class="col">
+                                <div class=" m-l-md">
+                                    <span class="h5 font-bold m-t block">$ 406,100</span>
+                                    <small class="text-muted m-b block">Sales marketing report</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <span class="h5 font-bold m-t block">$ 150,401</span>
+                                <small class="text-muted m-b block">Annual sales revenue</small>
+                            </div>
+                            <div class="col">
+                                <span class="h5 font-bold m-t block">$ 16,822</span>
+                                <small class="text-muted m-b block">Half-year revenue margin</small>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="statistic-box">
+                            <h4>
+                                Project Beta progress
+                            </h4>
+                            <p>
+                                You have two project with not compleated task.
+                            </p>
+                            <div class="row text-center">
+                                <div class="col-lg-6">
+                                    <canvas id="doughnutChart2" width="80" height="80" style="margin: 18px auto 0px; display: block;"></canvas>
+                                    <h5>Kolter</h5>
+                                </div>
+                                <div class="col-lg-6">
+                                    <canvas id="doughnutChart" width="80" height="80" style="margin: 18px auto 0px; display: block;"></canvas>
+                                    <h5>Maxtor</h5>
+                                </div>
+                            </div>
+                            <div class="m-t">
+                                <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>

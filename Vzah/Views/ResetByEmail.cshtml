@@ -1,0 +1,191 @@
+﻿@model ModelPortal.Account.UserProfile
+@{
+    ViewBag.Title = "ResetByEmail";
+    Layout = null;
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+
+    @Styles.Render("~/Icons/css", "~/jquery.gritter/css")
+    @Scripts.Render("~/jquery-2.0.3/js", "~/jquery.pjax.js/js")
+    <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../assets/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <!--[if IE 7]>
+         <link href="../../assets/css/font-awesome-ie7.min.css" rel="stylesheet" type="text/css" />
+        <![endif]-->
+    <link href="../../assets/css/ace-fonts.css" rel="stylesheet" type="text/css" />
+    <link href="../../assets/css/ace.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../assets/css/ace-rtl.min.css" rel="stylesheet" type="text/css" />
+    <!--[if lte IE 8]>
+          <link href="../../assets/css/ace-ie.min.css" rel="stylesheet" type="text/css" />
+        <![endif]-->
+    <!-- inline styles related to this page -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script type="text/javascript" src="../../assets/js/html5shiv.js"></script>
+            <script type="text/javascript" src="../../assets/js/respond.min.js"></script>
+        <![endif]-->
+
+
+
+    <script type="text/javascript">
+        function onQchange() {
+            document.getElementById('RPQid').value = document.getElementById('SQuestion').value;
+        }
+        function save() {
+            var qid = document.getElementById('SQuestion').value;
+            var SAns = document.getElementById('RPAns').value;
+            var emailid = document.getElementById('RPEmail').value;
+
+            if (document.getElementById('RPAns').value != "") {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Account/ResetByEmail",
+                    data: { Qid: qid, ans: SAns, emailid: emailid }
+                })
+            .success(function (aaData) {
+
+                document.getElementById('SQuestion').value = "";
+                document.getElementById('RPAns').value = "";
+                document.getElementById('RPEmail').value = "";
+
+                alert(aaData.aaData);
+
+
+                if (ansid != 0) {
+                    msg = "can't send mail";
+                }
+                else {
+                    msg = "Mail Successfully send";
+                }
+
+                last_gritter = $.gritter.add({
+                    title: 'Success',
+                    text: msg,
+                    class_name: 'btn-info'
+                });
+
+
+            });
+            }
+            else {
+
+
+            }
+
+
+        }
+
+    </script>
+    <script type="text/javascript">
+        $(window).load(function () {
+            if ('@TempData["RByEmail"]' == "Prob") {
+
+            last_gritter = $.gritter.add({
+                title: 'Error',
+                text: "This Email Id is not correct",
+                class_name: 'btn-danger'
+            });
+        }
+
+
+    });
+
+
+    </script>
+</head>
+@using (Html.BeginForm())
+{
+    <body class="login-layout">
+        <div class="main-container">
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <div class="login-container">
+                            @*<div class="center">
+                                    <h1>
+                                        <i class="icon-leaf green"></i><span class="red">Ace</span> <span class="white">Application</span>
+                                    </h1>
+                                    <h4 class="blue">
+                                        &copy; Company Name</h4>
+                                </div>*@
+                            <div class="space-6">
+                            </div>
+                            <div class="position-relative">
+                                <div id="forgot-box" class="forgot-box no-border">
+                                    <div class="widget-body">
+                                        <div class="widget-main">
+                                            <div class="center">
+                                                <img width="150px" src="/Content/Images/logo.jpg">
+                                                @*<img src="~/Content/Images/logo.png" />*@
+                                            </div>
+                                            <div class="space-6">
+                                            </div>
+                                            <h4 class="header red lighter bigger">
+                                                <i class="icon-key"></i>Send Email
+                                            </h4>
+                                            <div class="space-6">
+                                            </div>
+                                            <p>
+                                                Fill Email ID and receive instructions on mail
+                                            </p>
+
+                                            <div class="form-group">
+                                                <label class="block clearfix">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="email" placeholder="Email" id="RPEmail" required="required" name="RPEmail" class="col-xs-12 col-sm-11">
+                                                        <i class="icon-envelope pink"></i>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            <div class="clearfix">
+                                                <button type="submit" class="width-35 pull-right btn btn-sm btn-danger">
+                                                    <i class="icon-lightbulb"></i>Send Me!
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div style="color: Red;">
+                                            <span id="errorFile">@Html.ValidationMessage("ErrorMgr")</span>
+                                        </div>
+                                        <div class="space-4">
+                                        </div>
+                                        <div class="toolbar center">
+                                            <a href="#" onclick="show_box('login-box'); return false;" class="back-to-login-link"><i class="icon-arrow-left"></i>Back</a>
+                                        </div>
+                                        <input type="text" id="RPQid" name="RPQid" class="col-xs-12 col-sm-11 hidden">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--[if !IE]> -->
+        <script type="text/javascript">
+            window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>" + "<" + "/script>");
+        </script>
+        <!-- <![endif]-->
+        <!--[if IE]>
+            <script type="text/javascript">
+             window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+            </script>
+            <![endif]-->
+        <script type="text/javascript">
+            if ("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+        </script>
+        <script type="text/javascript">
+            function show_box(id) {
+                if (id == "login-box") {
+                    window.location.href = "/Account/Login";
+                }
+            }
+        </script>
+    </body>
+}
+
+@Scripts.Render("~/LayoutCommonjs/js")
+</html>

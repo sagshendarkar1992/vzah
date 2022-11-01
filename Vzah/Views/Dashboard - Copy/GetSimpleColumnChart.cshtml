@@ -1,0 +1,58 @@
+﻿@model ModelPortal.DashboardModel.DashboardConfig
+@{
+    Layout = null;
+}
+
+<script>
+     $(document).ready(function () {
+
+       Highcharts.chart('@Model.LST[0].NAME', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '@Model.LST[0].TITLE'
+    },
+    subtitle: {
+        text: '@Model.LST[0].SUBTITLE'
+    },
+    xAxis: {
+        categories: [@Html.Raw(Model.LST[0].CATEGORIES)],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: '@Model.LST[0].YAXISLABEL'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [@Html.Raw(Model.LST[0].LABELVALUE)],
+       });
+         });
+</script>
+
+<div class="ibox-title">
+    <h5>@Model.LST[0].NAME</h5>
+    <div class="ibox-tools">
+        <a class="collapse-link">
+            <i class="fa fa-chevron-up"></i>
+        </a>
+    </div>
+</div>
+<div class="ibox-content">
+    <div id="@Model.LST[0].NAME"></div>
+</div>

@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "Spring Dashboard";
+}
+
+<link href="~/Content/plugins/c3/c3.min.css" rel="stylesheet" />
+<script src="~/Scripts/plugins/d3/d3.min.js"></script>
+<script src="~/Scripts/plugins/c3/c3.min.js"></script>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12">
+        <h2>
+            Spring Dashboard<a class="collapse-link pull-right" onclick="filterShowHide();">
+                <i class="fa fa-sliders fa-lg"></i>
+            </a>
+        </h2>
+    </div>
+
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title" id="filter">
+                    @Html.Partial("~/Views/Dashboards/Filter.cshtml")
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="SpringDataDiv" style="margin-top:-25px!important">
+        @Html.Action("SpringData", "Dashboards", new { FLAG = 0, MACHINEID = 0, DESC = "", CLASSID = 0, BUID = 0, COMPANYID = 0, SITEID = 0 })
+
+    </div>
+</div>
+
+<script>
+   
+   
+    function btnFilterClick() {
+        $("#SpringDataDiv").empty();
+        var siteID = $("#SITEID").val();
+        var classID = $("#CLASSID").val();
+        var machineID = $("#MACHINEID").val();
+        var textSearch = $("#TEXTSEARCH").val().trim();
+        var BUID = $("#BUID").val();
+        var companyID = $("#COMPANYID").val();
+        var fromDate = $("#FROMDATE").val();
+        var toDate = $("#TODATE").val();
+
+        if (siteID == null) {
+            siteID = 0;
+        }
+        if (classID == null) {
+            classID = 0;
+        }
+        if (machineID == null) {
+            machineID = 0;
+        }
+        if (companyID == null) {
+            companyID = 0;
+        }
+        if (BUID == null) {
+            BUID = 0;
+        }
+        if (fromDate == undefined) {
+            fromDate = "";
+        }
+        if (toDate == undefined) {
+            toDate = "";
+        }
+
+        $.ajax({
+            url: "/Dashboards/SpringData",
+            type: "GET",
+            data: { FLAG: 0, MACHINEID: machineID, DESC: textSearch, CLASSID: classID, BUID: BUID, COMPANYID: companyID, SITEID: siteID },
+            success: function (data) {
+                $("#filter").show();
+                $("#SpringDataDiv").html(data);
+            },
+            error: function () {
+                alert("error");
+            }
+
+        })
+    }
+
+</script>

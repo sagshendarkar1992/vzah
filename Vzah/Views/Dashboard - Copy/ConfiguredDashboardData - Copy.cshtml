@@ -1,0 +1,485 @@
+﻿@model ModelPortal.DashboardModel.DashboardConfigMast
+
+@{
+    ViewBag.Title = "ConfiguredDashboardData";
+    Layout = null;
+
+}
+
+
+<style>
+    li {
+        list-style-type: none;
+    }
+
+    #myPerformance {
+        height: 600px;
+    }
+
+    .scrollit {
+        overflow: scroll;
+        height: 265px;
+    }
+
+        .scrollit::-webkit-scrollbar {
+            display: none;
+        }
+
+    .highcharts-figure, .highcharts-data-table table {
+        min-width: 320px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #EBEBEB;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
+    }
+
+    .ld-label {
+        width: 200px;
+        display: inline-block;
+    }
+
+    .ld-url-input {
+        width: 500px;
+    }
+
+    .ld-time-input {
+        width: 40px;
+    }
+</style>
+<style>
+    .padding_left_right {
+        padding: 0;
+        /*padding-right: 0;
+        padding-left: 0;*/
+    }
+
+    .DivHeight {
+        height: 245px !important;
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
+    .border-left {
+        /*border-color: #808080 !important;*/
+    }
+
+    .chartWrapper {
+        position: relative;
+    }
+
+        .chartWrapper > canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+        }
+
+    .chartAreaWrapper {
+        /*width: 600px;*/
+        overflow-x: scroll;
+    }
+
+
+    /*.can{
+        height: 390px !important;
+        width: 1200px !important;
+    }*/
+</style>
+
+<script>
+    var getColor = [
+        '#1b7cb5',
+        '#1e89c8',
+        '#2199de',
+        '#37a3e1',
+        '#4eade4',
+        '#64b7e8',
+        '#7ac2eb',
+        '#90ccee',
+        '#a6d6f2',
+        '#bce0f5',
+        '#d3ebf8',
+        '#cacfce'
+    ];
+
+</script>
+
+<link href="~/Custom CSS/gridster.css" rel="stylesheet" />
+<script src="~/assets/js/Highcharts-5.0.6/modules/exporting.js"></script>
+<script src="~/assets/js/Highcharts-5.0.6/highcharts-3d.js"></script>
+
+<script type="text/javascript">
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    var gridster;
+            var barchart;
+
+    $(function () {
+        debugger
+
+//        var steps = 15;
+//var from = new ColorTranslator("#93625D");
+//var to = new ColorTranslator(from.HEX).setL(from.L + steps);
+
+//var shades = ColorTranslator.blendHEX(from.HEX, to.HEX, steps);
+
+        gridster = $(".gridster ul").gridster({
+            widget_base_dimensions: [90, 100],
+            widget_margins: [5, 5],
+            helper: 'clone',
+            resize: {
+                enabled: true,
+                resize: function (e, ui, $widget) {
+                                        var highchart_count = 0;
+  @*@foreach (var obj in Model.LST.OrderBy(x => x.SequenceNo))
+                         {
+                         <text>
+                    Highcharts.charts[highchart_count].reflow();
+                    highchart_count++;
+                                        $("#btnSave").show();
+
+                    </text>
+                         }*@
+              //Highcharts.charts[0].reflow(); // reflow the first chart...
+          },
+                stop: function (e, ui, $widget) {
+                    var newDimensions = this.serialize($widget)[0];
+                    debugger
+                    var highchart_count = 0;
+
+                    var IDD = $widget.attr("IDD");
+                    var ulwidth = $widget.width();
+                    var ulheight = $widget.height();
+                    var obj = document.getElementsByClassName("HighCharts_Configure_" + IDD);
+                    for (var i = 0; i < obj.length; i++) {
+                      $("#" + obj[i].id).highcharts().setSize(ulwidth - 30, ulheight - 200, false);
+                    }
+
+                    //var IDD = $widget.attr("IDD");
+                    //var vall = $("#" + IDD).children();
+                    //var doc = document.getElementsByClassName("HighCharts_Configure_"+IDD);
+                    //var notes = null;
+                    //$('.class').find('.childrenclass').length;
+                    //for (var i = 0; i < doc.childNodes.length; i++) {
+                    //    if (doc.childNodes[i].className == "ibox-content") {
+                    //        notes = $("." + doc.childNodes[i].className).childNodes;
+                    //        $("#" + notes.ID).highcharts().setSize(newDimensions.size_x * ulwidth / 12, newDimensions.size_y * ulheight / 12, false);
+                    //    }
+                    //}
+                    //$('#ULID li').each(function () {// id of ul
+                        //var li = $(this).text();//get each li in ul
+                        //debugger
+                        //var litxt = li;
+                        //$("#" + li).highcharts().reflow();
+                        //$("#" + li).highcharts().setSize(newDimensions.size_x * ulwidth/12, newDimensions.size_y * ulheight/12, false);
+                        //alert(litxt);//get text of each li
+                    //})
+      //Highcharts.charts[1].reflow();
+      //Highcharts.charts[2].reflow();
+      //Highcharts.charts[3].reflow();
+      //Highcharts.charts[4].reflow();
+
+
+      //alert("New width: " + newDimensions.size_x);
+      //alert("New height: " + newDimensions.size_y);
+      //chartresize(newDimensions.size_x);
+      // Alternative approach; these properties are undocumented:
+      // alert("New width: " + this.resize_last_sizex);
+      // alert("New height: " + this.resize_last_sizey);
+  }
+            }
+        }).data('gridster');
+
+        $('.js-resize-random').on('click', function () {
+            gridster.resize_widget(gridster.$widgets.eq(getRandomInt(0, 9)),
+                getRandomInt(1, 4), getRandomInt(1, 4));
+        });
+
+      Highcharts.setOptions({
+          colors: [
+              '#6DBCCF',
+        '#6FECD1',
+        '#D1DADE','#69B8CB','#F8AC59'
+      ]
+});
+
+    });
+
+
+</script>
+
+@*<div class="row">
+    <div class="col-lg-12 padding_left_right">*@
+@*<div class="row">*@
+@*<ul id="ULID">
+</ul>*@
+<div class="gridster ready" style="margin-left:-20px;margin-right:-20px;">
+    <input id="txtPAGENAME" type="text" value="@Model.LST[0].PAGENAME" style="display:none;" />
+    @*style="width:100%;"*@
+    <ul id="ulDashboard">
+        @*style="width: 100%; position: relative;overflow:hidden;"*@
+        @foreach (var obj in Model.LST.OrderBy(x => x.SequenceNo))
+        {
+        <li IDD="@obj.ID" data-row="@obj.data_row" data-col="@obj.data__column" data-sizex="@obj.data_sizex" data-sizey="@obj.data_sizey" class="@obj.Class">
+            <div id="@obj.ID" class="ibox GETID"></div>
+            <div id="divSpinners_@obj.ID" class="ibox" style="display:none;">
+                <div class="ibox-content">
+                    <div class="spiner-example">
+                        <div class="sk-spinner sk-spinner-circle">
+                            <div class="sk-circle1 sk-circle"></div>
+                            <div class="sk-circle2 sk-circle"></div>
+                            <div class="sk-circle3 sk-circle"></div>
+                            <div class="sk-circle4 sk-circle"></div>
+                            <div class="sk-circle5 sk-circle"></div>
+                            <div class="sk-circle6 sk-circle"></div>
+                            <div class="sk-circle7 sk-circle"></div>
+                            <div class="sk-circle8 sk-circle"></div>
+                            <div class="sk-circle9 sk-circle"></div>
+                            <div class="sk-circle10 sk-circle"></div>
+                            <div class="sk-circle11 sk-circle"></div>
+                            <div class="sk-circle12 sk-circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+</li>
+        }
+    </ul>
+</div>
+
+<div class="theme-config" id="btnSave" style="display:none;">
+    <div class="theme-config-box">
+        <div class="spin-icon">
+            <i class="fa fa-save" style="cursor:pointer;" onclick="SaveDashboard();"></i>
+        </div>
+        <div class="skin-settings">
+            <div class="title">
+                Configuration <br>
+                <small style="text-transform: none;font-weight: 400">
+                    Config box designed for demo purpose. All options available via code.
+                </small>
+            </div>
+            <div class="setings-item">
+                <span>
+                    Collapse menu
+                </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="collapsemenu">
+                        <label class="onoffswitch-label" for="collapsemenu">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                    Fixed sidebar
+                </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixedsidebar" class="onoffswitch-checkbox" id="fixedsidebar">
+                        <label class="onoffswitch-label" for="fixedsidebar">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                    Top navbar
+                </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixednavbar" class="onoffswitch-checkbox" id="fixednavbar">
+                        <label class="onoffswitch-label" for="fixednavbar">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                    Top navbar v.2
+                    <br>
+                    <small>*Primary layout</small>
+                </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixednavbar2" class="onoffswitch-checkbox" id="fixednavbar2">
+                        <label class="onoffswitch-label" for="fixednavbar2">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                    Boxed layout
+                </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="boxedlayout" class="onoffswitch-checkbox" id="boxedlayout">
+                        <label class="onoffswitch-label" for="boxedlayout">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="setings-item">
+                <span>
+                    Fixed footer
+                </span>
+
+                <div class="switch">
+                    <div class="onoffswitch">
+                        <input type="checkbox" name="fixedfooter" class="onoffswitch-checkbox" id="fixedfooter">
+                        <label class="onoffswitch-label" for="fixedfooter">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="title">Skins</div>
+            <div class="setings-item default-skin">
+                <span class="skin-name ">
+                    <a href="#" class="s-skin-0">
+                        Default
+                    </a>
+                </span>
+            </div>
+            <div class="setings-item blue-skin">
+                <span class="skin-name ">
+                    <a href="#" class="s-skin-1">
+                        Blue light
+                    </a>
+                </span>
+            </div>
+            <div class="setings-item ultra-skin">
+                <span class="skin-name ">
+                    <a target="_blank" href="http://webapplayers.com/inspinia_admin-v2.9.3/md_skin/" class="md-skin">
+                        Material Design
+                    </a>
+                </span>
+            </div>
+            <div class="setings-item light-skin">
+                <span class="skin-name ">
+                    <a target="_blank" href="http://webapplayers.com/inspinia_admin-v2.9.3/ls_skin/" class="md-skin">
+                        Light Skin
+                    </a>
+                </span>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*</div>*@
+@*</div>
+    </div>*@
+
+<script>
+    @foreach (var obj in Model.LST.OrderBy(x => x.SequenceNo))
+                    {
+
+    <text>
+     $.ajax({
+            url: "/@obj.CONTROLLERNAME/@obj.VIEWNAME?FLAG="+@obj.objFilter.FLAG +"&MACHINEID=" + @obj.objFilter.MACHINEID + "&DESC=" + "" + "&CLASSID=" + @obj.objFilter.CLASSID + "&BUID=" + @obj.objFilter.BUID + "&COMPANYID=" + @obj.objFilter.COMPANYID + "&SITEID=" + @obj.objFilter.SITEID + "&deviceType=" + @obj.ID + "&PFLAG=" + @obj.FLAG + "&ID=" + @obj.ID,
+            type: 'GET',
+            error: function (xhr) {
+                //alert('Error: ' + xhr.statusText);
+                             $("#divSpinners_@obj.ID").show();
+
+            },
+         success: function (result) {
+             $("#divSpinners_@obj.ID").show();
+                          debugger
+                   $("#@obj.ID").html(result);
+
+             $("#divSpinners_@obj.ID").hide();
+            }
+     });
+
+    </text>
+                    }
+
+
+</script>
+
+<script>
+    function SaveDashboard() {
+        var PageName = $("#txtPAGENAME").val();
+
+        var lstDashboardConfigMast = [];
+        debugger
+        $("#ulDashboard li").each(function (i) {
+            if ($(this).attr('IDD') != undefined) {
+                var objDash = { ID: $(this).attr('IDD'), data_row: $(this).attr('data-row'), data__column: $(this).attr('data-col'), data_sizex: $(this).attr('data-sizex'), data_sizey: $(this).attr('data-sizey') };
+                lstDashboardConfigMast.push(objDash);
+            }
+        });
+
+        lstDashboardConfigMast = JSON.stringify({ 'lstDashboardConfigMast': lstDashboardConfigMast });
+
+        $.ajax({
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            type: 'POST',
+            url: '/Dashboard/SaveDashboard',
+            data: lstDashboardConfigMast,
+            success: function () {
+                location.reload();
+                //$('#result').html('"PassThings()" successfully called.');
+            },
+            failure: function (response) {
+                //$('#result').html(response);
+            }
+        });
+    }
+</script>

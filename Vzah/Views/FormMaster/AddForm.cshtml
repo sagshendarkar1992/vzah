@@ -1,0 +1,184 @@
+﻿@model ModelPortal.Master.FormMaster
+@{
+    ViewBag.Title = "AddForm";
+    Layout = null;
+}
+
+@using (Ajax.BeginForm("AddForm", "FormMaster", null, new AjaxOptions() { OnSuccess = "DisplaySuccessMsg" }, new { @enctype = "multipart/form-data", @id = "form", @class = "form-horizontal" }))
+{
+    <div class="ibox">
+        <div class="ibox-title">
+            <label> Add Form </label>
+            <div class="ibox-tools">
+                <a href="/ConfigMaster/GetDashboard">
+                    <i class="fa fa-times fa-2x" style="color:red;"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content">
+            <div class="row form-group">
+                <div class="col-sm-12">
+                    <div class="tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li><a class="nav-link active" data-toggle="tab" href="#tab-Table">Table</a></li>
+                            <li><a class="nav-link" data-toggle="tab" href="#tab-3">Controller <i class="fa fa-laptop"></i></a></li>
+                            <li><a class="nav-link" data-toggle="tab" href="#tab-4">Model<i class="fa fa-desktop"></i></a></li>
+                            <li><a class="nav-link" data-toggle="tab" href="#tab-5">View<i class="fa fa-database"></i></a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="tab-Table" class="tab-pane active">
+                                <div class="panel-body">
+                                 <table id="tblTable" class="table table-bordered">
+                                     <tr><td colspan="4">
+                                         <button id="btnAddrow" type="button" class="btn btn-primary" onclick="AddRow();"><i class="fa fa-plus fa-2x"></i> Add</button>
+                                         </td></tr>
+                                     <thead><tr><th>SrNo</th><th>Name</th><th>Data Type
+                                         </th><th></th></tr></thead> 
+                                     <tbody id="tbdTable">
+                                         <tr><td>1</td><td><input type="text" class="form-control" /></td><td><input type="text" class="form-control" /></td><td></td></tr>
+                                     </tbody>
+                                 </table>
+                                </div>
+                            </div>
+                            <div id="tab-3" class="tab-pane active">
+                                <div class="panel-body">
+                                    <textarea type="text" id="strController" rows="50" class="form-control" style="font-size:small;" name="strController" value="@Model.strController">@Model.strController</textarea>
+                                    <button id="btnReplace" class="btn btn-md btn-primary float-right m-t-n-xs" type="button" onclick="ReplaceNewLineCharacter('strController');"><strong>Replace</strong></button>
+                                </div>
+                            </div>
+                            <div id="tab-4" class="tab-pane">
+                                <div class="panel-body">
+                                    <textarea type="text" id="strModel" rows="50" class="form-control" style="font-size:small;" name="strModel" value="@Model.strModel">@Model.strModel</textarea>
+                                    <button id="btnReplace" class="btn btn-md btn-primary float-right m-t-n-xs" type="button" onclick="ReplaceNewLineCharacter('strModel');"><strong>Replace</strong></button>
+                                </div>
+                            </div>
+                            <div id="tab-5" class="tab-pane">
+                                <div class="panel-body">
+                                    <textarea type="text" id="strView" rows="50" class="form-control" style="font-size:small;" name="strView" value="@Model.strView">@Model.strView</textarea>
+                                    <button id="btnReplace" class="btn btn-md btn-primary float-right m-t-n-xs" type="button" onclick="ReplaceNewLineCharacter('strView');"><strong>Replace</strong></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+              
+            </div>
+        <div class="row form-group">
+            <div class="col-sm-12">
+                <button id="btnReplace" class="btn btn-md btn-primary float-right m-t-n-xs" type="button" onclick="ReplaceNewLineCharacter();"><strong>Replace</strong></button>
+
+                <button id="btnSave" class="btn btn-md btn-primary float-right m-t-n-xs" type="submit"><strong>Save</strong></button>
+            </div>
+        </div>
+    </div>
+ 
+
+
+}
+
+<style>
+    /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+    #map {
+        height: 100%;
+    }
+    /* Optional: Makes the sample page fill the window. */
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+    }
+
+    #infowindow-content .title {
+        font-weight: bold;
+    }
+
+    #infowindow-content {
+        display: none;
+    }
+
+    #map #infowindow-content {
+        display: inline;
+    }
+
+    .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+    }
+
+    #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+    }
+
+    .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+    }
+
+        .pac-controls label {
+            font-family: Roboto;
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+    #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+    }
+
+        #pac-input:focus {
+            border-color: #4d90fe;
+        }
+
+    #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+    }
+</style>
+<link href="~/Content/plugins/clockpicker/clockpicker.css" rel="stylesheet" />
+<script src="~/Scripts/plugins/clockpicker/clockpicker.js"></script>
+<script src='http://maps.googleapis.com/maps/api/js?v=3&sensor=false&amp;libraries=places&key=@ViewBag.MapKey'></script>
+
+<script>
+    $(document).ready(function () {
+
+    });
+
+    function AddRow() {
+        var id = $("#tbdTable").length;
+        id = id + 1;
+        $("#tbdTable").append("<tr><td>"+id+"</td><td></td><td></td><td></td></tr>");
+    }
+
+    function ReplaceNewLineCharacter(id) {
+        var myString = $("#" + id).val();
+        myString = myString.replace(/[\r\n]/g, "<br />");
+        $("#" + id).val(myString);
+    }
+</script>
+
+
+

@@ -1,0 +1,546 @@
+﻿<style>
+
+    .btn-flex {
+        display: flex;
+        align-items: stretch;
+        align-content: stretch;
+    }
+
+        .btn-flex .btn:first-child {
+            flex-grow: 1;
+            text-align: left;
+        }
+</style>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="ibox-title mb-2">
+                <div class="col-md-4">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle binddata" style="border-color:#1ab394!important" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            All Status
+                        </button>
+
+                        <ul class="dropdown-menu AllStatus scrollable-menu" aria-labelledby="dropdownMenu1">
+                            @foreach (var item in ViewBag.ClassList)
+                            {
+                                <li><a class="dropdown-item" href="#" onclick="AllStatusClick('@item.CLASSID','@item.CLASSNAME','@item.COUNT');"><span class="badge badge-primary">@item.COUNT</span>&nbsp;&nbsp; @item.CLASSNAME</a></li>
+                            }
+                        </ul>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Assets Status</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content" style="height:400px!important">
+
+                            <div class="dropdown btn-flex" style="margin-bottom:10px!important">
+                                <button class="btn btn-default dropdown-toggle binddata AssetStatus" style="border-color:#1ab394!important" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    All Status
+
+                                </button>
+
+                                <ul class="dropdown-menu scrollable-menu w-100" aria-labelledby="dropdownMenu1">
+                                    @foreach (var item in ViewBag.ClassList)
+                                    {
+                                        <li><a class="dropdown-item" href="#" onclick="AssetClick('@item.CLASSID','@item.CLASSNAME','@item.COUNT');" value="@item.CLASSID"><span class="badge badge-primary">@item.COUNT</span>&nbsp;&nbsp; @item.CLASSNAME</a></li>
+                                    }
+                                </ul>
+
+                            </div>
+
+                            <table class="table table-striped table-bordered table-hover dataTables-example dataTable">
+                                <tr>
+                                    <th class="btn btn-default" style="width:60%!important;border-color:#1ab394!important">Asset off</th>
+                                    <td class="btn btn-primary" style="width:40%!important;border-color:#1ab394!important"><span id="AssetOff">@ViewBag.ASSETOFF</span> </td>
+                                </tr>
+                            </table>
+
+                            <table class="table table-striped table-bordered table-hover dataTables-example dataTable">
+                                <tr>
+                                    <th class="btn btn-default" style="width:60%!important;border-color:#1ab394!important">Asset on</th>
+                                    <td class="btn btn-primary" style="width:40%!important;border-color:#1ab394!important"><span id="AssetON">@ViewBag.ASSETON</span></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Fuel Level</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content" style="height:400px!important">
+
+                            <div class="dropdown btn-flex" style="margin-bottom:10px!important">
+                                <button class="btn btn-default dropdown-toggle binddata FuelLevel" style="border-color:#1ab394!important" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    All Status
+
+                                </button>
+
+                                <ul class="dropdown-menu scrollable-menu w-100" aria-labelledby="dropdownMenu1">
+                                    @foreach (var item in ViewBag.ClassList)
+                                    {
+                                        <li><a class="dropdown-item" onclick="FuelClick('@item.CLASSID','@item.CLASSNAME','@item.COUNT');" href="#"><span class="badge badge-primary">@item.COUNT</span>&nbsp;&nbsp; @item.CLASSNAME</a></li>
+                                    }
+                                </ul>
+
+                            </div>
+                            <div class="" id="FuelLevelDiv">
+                                @Html.Action("FuelLevel", "Dashboards", new { FLAG = 0, ClassID = 0, DESC = "" })
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Asset Utilization</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content" style="height:400px!important">
+
+                            <div class="dropdown btn-flex" style="margin-bottom:10px!important">
+                                <button class="btn btn-default dropdown-toggle binddata AssetUtilization" style="border-color:#1ab394!important" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    All Status
+
+                                </button>
+
+                                <ul class="dropdown-menu scrollable-menu w-100" aria-labelledby="dropdownMenu1">
+                                    @foreach (var item in ViewBag.ClassList)
+                                    {
+                                        <li><a class="dropdown-item" onclick="AUClick('@item.CLASSID','@item.CLASSNAME','@item.COUNT');" href="#"><span class="badge badge-primary">@item.COUNT</span>&nbsp;&nbsp; @item.CLASSNAME</a></li>
+                                    }
+                                </ul>
+
+                            </div>
+
+                            <table class="table table-striped table-bordered table-hover dataTables-example dataTable">
+                                <tr>
+                                    <td class="btn btn-default IsActiveAU" onclick="TotalAverageClick(2)" style="width:50%!important;height:35px!important;border-color:#1ab394!important">Average</td>
+                                    <td class="btn btn-default IsActiveAU active" onclick="TotalAverageClick(1)" style="width:50%!important;height:35px!important;border-color:#1ab394!important">Total</td>
+                                </tr>
+                            </table>
+
+                            <div class="" id="AssetUtilizationDiv">
+                                @Html.Action("AssetUtilization", "Dashboards", new { FLAG = 1, ClassID = 0, DESC = "" })
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Map</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content" style="height:580px!important">
+
+                            <div class="dropdown btn-flex" style="margin-bottom:10px!important">
+                                <button class="btn btn-default dropdown-toggle binddata Map" style="border-color:#1ab394!important" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    All Status
+
+                                </button>
+
+                                <ul class="dropdown-menu scrollable-menu w-100" aria-labelledby="dropdownMenu1">
+                                    @foreach (var item in ViewBag.ClassList)
+                                    {
+                                        <li><a class="dropdown-item" onclick="MapClick('@item.CLASSID','@item.CLASSNAME','@item.COUNT');" href="#"><span class="badge badge-primary">@item.COUNT</span>&nbsp;&nbsp; @item.CLASSNAME</a></li>
+                                    }
+                                </ul>
+
+                            </div>
+                            <div class="" id="MapDiv">
+                                @Html.Action("BirdEyeData", "BirdEyeView", new { FLAG = 0, MACHINEID = 0, BUID = 0, COMPANYID = 0, SITEID = 0, CLASSID = 0 })
+
+                                @*@Html.Action("GetMap", "Dashboards", new { FLAG = 0, MACHINEID = 0, ClassID = 0, DESC = "" })*@
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-4">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Notifications</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content" style="height:450px!important">
+
+                            <div class="dropdown btn-flex" style="margin-bottom:10px!important">
+                                <button class="btn btn-default dropdown-toggle binddata AssetStatus" style="border-color:#1ab394!important" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    All Status
+
+                                </button>
+
+                                <ul class="dropdown-menu scrollable-menu w-100" aria-labelledby="dropdownMenu1">
+                                    @foreach (var item in ViewBag.ClassList)
+                                    {
+                                        <li><a class="dropdown-item" href="#" onclick="AssetClick('@item.CLASSID','@item.CLASSNAME','@item.COUNT');" value="@item.CLASSID"><span class="badge badge-primary">@item.COUNT</span>&nbsp;&nbsp; @item.CLASSNAME</a></li>
+                                    }
+                                </ul>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5> Idling Level</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content" style="height:400px!important">
+
+                            <div class="dropdown btn-flex" style="margin-bottom:10px!important">
+                                <button class="btn btn-default dropdown-toggle binddata IdlingLevel" style="border-color:#1ab394!important" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    All Status
+
+                                </button>
+
+                                <ul class="dropdown-menu scrollable-menu w-100" aria-labelledby="dropdownMenu1">
+                                    @foreach (var item in ViewBag.ClassList)
+                                    {
+                                        <li><a class="dropdown-item" onclick="ILClick('@item.CLASSID','@item.CLASSNAME','@item.COUNT');" href="#"><span class="badge badge-primary">@item.COUNT</span>&nbsp;&nbsp; @item.CLASSNAME</a></li>
+                                    }
+                                </ul>
+
+                            </div>
+
+                            <table class="table table-striped table-bordered table-hover dataTables-example dataTable">
+                                <tr>
+                                    <td class="btn btn-default IsActiveIL active" onclick="IdlingClikWise(1)" style="width:33%!important;height:35px!important;border-color:#1ab394!important">Day</td>
+                                    <td class="btn btn-default IsActiveIL" onclick="IdlingClikWise(2)" style="width:33%!important;height:35px!important;border-color:#1ab394!important">Week</td>
+                                    <td class="btn  btn-default IsActiveIL " onclick="IdlingClikWise(3)" style="width:34%!important;height:35px!important;border-color:#1ab394!important">Month</td>
+                                </tr>
+                            </table>
+
+                            <div class="" id="IdlingLevelDiv">
+                                @Html.Action("IdlingLevel", "Dashboards", new { FLAG = 1, ClassID = 0, DESC = "" })
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="~/Scripts/plugins/chartJs/Chart.min.js"></script>
+@*@Styles.Render("~/plugins/select2Styles")
+    @Scripts.Render("~/plugins/select2")*@
+<style>
+    .scrollable-menu {
+        height: auto;
+        max-height: 200px;
+        overflow-x: hidden;
+    }
+
+    .active {
+        background-color: #1ab394 !important;
+        border-color: #1ab394 !important;
+        color: #fff !important;
+    }
+</style>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&amp;key=@ViewBag.MapKey"></script>
+
+<script type="text/javascript">
+
+    //$(".AllStatus li a").click(function () {
+
+    //    var text = $(this).text();
+    //    var num =  text.match(/\d+/);
+    //    var char = text.match(/[a-zA-Z]+/g);
+
+    //    var val = '<span class="badge badge-primary">' + num + '</span>&nbsp;&nbsp;' + char;
+
+    //    //$(this).parents(".dropdown").find('.btn').html(val + ' <span class="caret"></span>');
+    //    //$(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+
+    //    $(".binddata").html(val);
+    //});
+    function AllStatusClick(ClassID, CLASSNAME, COUNT) {
+        var val = '<span class="badge badge-primary">' + COUNT + '</span>&nbsp;&nbsp;' + CLASSNAME;
+        $(".binddata").html(val);
+        Asset(ClassID);
+        FuelLevel(ClassID);
+        AssetUtilization(ClassID);
+        IdlingLevel(ClassID);
+        //GetMap(ClassID);
+    }
+
+
+
+
+    jQuery(function ($) {
+        $(".IsActiveAU").click(function () {
+            $(".IsActiveAU").removeClass("active");
+            $(this).addClass("active");
+        });
+        $(".IsActiveIL").click(function () {
+            $(".IsActiveIL").removeClass("active");
+            $(this).addClass("active");
+        });
+        FillMachine();
+    });
+    function AssetClick(ClassID, CLASSNAME, COUNT) {
+        var val = '<span class="badge badge-primary">' + COUNT + '</span>&nbsp;&nbsp;' + CLASSNAME;
+        $(".AssetStatus").html(val);
+        Asset(ClassID);
+    }
+
+    function Asset(ClassID) {
+        $.ajax({
+            url: "/Dashboards/GetAssetStatus",
+            type: "GET",
+            data: { ClassID: ClassID },
+            success: function (data) {
+                $("#AssetON").html('');
+                $("#AssetOff").html('');
+                $("#AssetON").html(data.ASSETON);
+                $("#AssetOff").html(data.ASSETOFF);
+            },
+            error: function () {
+                alert("error");
+            }
+
+        })
+    }
+    function FuelClick(ClassID, CLASSNAME, COUNT) {
+        var val = '<span class="badge badge-primary">' + COUNT + '</span>&nbsp;&nbsp;' + CLASSNAME;
+        $(".FuelLevel").html(val);
+        FuelLevel(ClassID);
+    }
+
+    function FuelLevel(ClassID) {
+        $.ajax({
+            url: "/Dashboards/FuelLevel",
+            type: "GET",
+            data: { FLAG: 0, ClassID: ClassID, DESC: "" },
+            success: function (data) {
+                $("#FuelLevelDiv").html('');
+                $("#FuelLevelDiv").html(data);
+
+            },
+            error: function () {
+                alert("error");
+            }
+
+        })
+    }
+
+    function AUClick(ClassID, CLASSNAME, COUNT) {
+        var val = '<span class="badge badge-primary">' + COUNT + '</span>&nbsp;&nbsp;' + CLASSNAME;
+        $(".AssetUtilization").html(val);
+        AssetUtilization(ClassID);
+    }
+
+    function AssetUtilization(ClassID) {
+        $.ajax({
+            url: "/Dashboards/AssetUtilization",
+            type: "GET",
+            data: { FLAG: 1, ClassID: ClassID, DESC: "" },
+            success: function (data) {
+                $("#AssetUtilizationDiv").html('');
+                $("#AssetUtilizationDiv").html(data);
+
+            },
+            error: function () {
+                alert("error");
+            }
+
+        })
+    }
+    function ILClick(ClassID, CLASSNAME, COUNT) {
+        var val = '<span class="badge badge-primary">' + COUNT + '</span>&nbsp;&nbsp;' + CLASSNAME;
+        $(".IdlingLevel").html(val);
+        IdlingLevel(ClassID);
+    }
+
+
+
+    function IdlingLevel(ClassID) {
+        $.ajax({
+            url: "/Dashboards/IdlingLevel",
+            type: "GET",
+            data: { FLAG: 1, ClassID: ClassID, DESC: "" },
+            success: function (data) {
+                $("#IdlingLevelDiv").html('');
+                $("#IdlingLevelDiv").html(data);
+
+            },
+            error: function () {
+                alert("error");
+            }
+
+        })
+    }
+    function MapClick(ClassID, CLASSNAME, COUNT) {
+        var val = '<span class="badge badge-primary">' + COUNT + '</span>&nbsp;&nbsp;' + CLASSNAME;
+        $(".Map").html(val);
+        GetMap(ClassID);
+    }
+    function GetMap(ClassID) {
+        //$.ajax({
+        //    url: "/Dashboards/GetMap",
+        //    type: "GET",
+        //    data: { FLAG: 0, MACHINEID:0, ClassID: ClassID, DESC: "" },
+        //    success: function (data) {
+        //        $("#MapDiv").html('');
+        //        $("#MapDiv").html(data);
+
+        //    },
+        //    error: function () {
+        //        alert("error");
+        //    }
+
+        //})
+    }
+
+
+
+    function TotalAverageClick(FLAG) {
+        var ClassID = 0;
+
+        $.ajax({
+            url: "/Dashboards/AssetUtilization",
+            type: "GET",
+            data: { FLAG: FLAG, ClassID: ClassID, DESC: "" },
+            success: function (data) {
+                $("#AssetUtilizationDiv").html('');
+                $("#AssetUtilizationDiv").html(data);
+
+            },
+            error: function () {
+                alert("error");
+            }
+
+        })
+
+    }
+    function IdlingClikWise(FLAG) {
+
+        var ClassID = 0;
+
+        $.ajax({
+            url: "/Dashboards/IdlingLevel",
+            type: "GET",
+            data: { FLAG: FLAG, ClassID: ClassID, DESC: "" },
+            success: function (data) {
+                $("#IdlingLevelDiv").html('');
+                $("#IdlingLevelDiv").html(data);
+
+            },
+            error: function () {
+                alert("error");
+            }
+
+        })
+
+    }
+
+
+    function FillMachine() {
+        $('#ClassID').select2({
+            placeholder: "Select Class",
+            allowClear: true,
+            ajax: {
+                dataType: "json",
+                url: "/Help/GetClassName/",
+                data: function (term) {
+
+                    return {
+                        Flag: parseInt(2),
+                        CLASSID: parseInt(0),
+                        DESC: term
+                    };
+                },
+                processResults: function (data) {
+
+                    return {
+                        results: data
+                    };
+                }
+            }
+        }).on("change", function (e) {
+
+
+        });
+    }
+
+</script>
